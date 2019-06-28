@@ -25,16 +25,17 @@ namespace GetThisBread.Core.Commands
             var userInfo = user ?? Context.Client.CurrentUser;
             //await ReplyAsync($"{userInfo.Username}#{userInfo.Discriminator}#{userInfo.GetAvatarUrl()}");
 
-            Embed.WithDescription("User Name: " + userInfo.Username + "\n" + "Discriminator: " + "#" + userInfo.Discriminator + "\n" +
-            "Profile Created on:" + $"[Thing]({userInfo.CreatedAt})");
+            // Embed.WithDescription("User Name: " + userInfo.Username + "\n" + "Discriminator: " + "#" + userInfo.Discriminator + "\n" +
+            //"Profile Created on: " + userInfo.CreatedAt);
+
+            
 
 
             //Don't mind these. They are here for testing.
-            //Embed.AddField("Profile created on", "#" + userInfo.CreatedAt);
-
-            //Embed.AddField("User Discriminator", userInfo.Discriminator);
-
-
+            Embed.AddField("Profile created on", " " + userInfo.CreatedAt);
+            Embed.AddField("User Discriminator", "\n" + "#" + userInfo.Discriminator);
+            Embed.AddField("Users Status.", userInfo.Status);
+             
 
             Embed.WithThumbnailUrl("" + userInfo.GetAvatarUrl());
             Embed.WithColor(17, 0, 255);
@@ -107,6 +108,11 @@ namespace GetThisBread.Core.Commands
         [RequireUserPermission(GuildPermission.BanMembers)]
         public async Task Ban(SocketGuildUser user)
         {
+
+
+
+
+
 
             await user.BanAsync();
 

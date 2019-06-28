@@ -28,7 +28,7 @@ namespace GetThisBread
 
             client = new DiscordSocketClient(new DiscordSocketConfig
             {
-                LogLevel = LogSeverity.Debug
+                LogLevel = LogSeverity.Info
 
             }) ;
 
@@ -42,12 +42,10 @@ namespace GetThisBread
             Commands = new CommandService();
 
 
-            string token = "TOKEN";
-             //using (var Stream = new FileStream((Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)).Replace(@"\bin\Debug\netcoreapp2.1", @"Token.txt"), FileMode.Open, FileAccess.Read))
-            // using (var ReadToken = new StreamReader(Stream))
-             //{
-                // token = ReadToken.ReadToEnd();
-             //}
+
+            var token = File.ReadAllText("Token.txt"); 
+
+            
 
             services = new ServiceCollection()
                 .BuildServiceProvider();
@@ -126,7 +124,7 @@ namespace GetThisBread
             Console.WriteLine(msg.ToString());
             return Task.CompletedTask;
         }
-
+    
 
 
 
