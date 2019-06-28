@@ -11,10 +11,10 @@ namespace GetThisBread.Core.Commands
 
 
     public class Admin : ModuleBase
- 
+
 
     {
-  
+
         [Command("Userinfo"), Summary("Returns the users info")]
         [Alias("user", "whois")]
         public async Task UserInfo([Summary("The (optional) user to get info for")] IUser user = null)
@@ -28,14 +28,15 @@ namespace GetThisBread.Core.Commands
             // Embed.WithDescription("User Name: " + userInfo.Username + "\n" + "Discriminator: " + "#" + userInfo.Discriminator + "\n" +
             //"Profile Created on: " + userInfo.CreatedAt);
 
-            
+
 
 
             //Don't mind these. They are here for testing.
-            Embed.AddField("Profile created on", " " + userInfo.CreatedAt);
-            Embed.AddField("User Discriminator", "\n" + "#" + userInfo.Discriminator);
+            Embed.AddField("Profile created on.", " " + userInfo.CreatedAt);
+            Embed.AddField("User Discriminator.", "\n" + "#" + userInfo.Discriminator);
             Embed.AddField("Users Status.", userInfo.Status);
-             
+            Embed.AddField("User name (if they have a nick.)", userInfo.Username);
+
 
             Embed.WithThumbnailUrl("" + userInfo.GetAvatarUrl());
             Embed.WithColor(17, 0, 255);
@@ -57,7 +58,7 @@ namespace GetThisBread.Core.Commands
             await Context.Channel.SendMessageAsync("Messages have been purged!");
 
         }
-       
+
 
 
 
@@ -84,7 +85,7 @@ namespace GetThisBread.Core.Commands
         [RequireUserPermission(GuildPermission.KickMembers)]
         public async Task Kick(SocketGuildUser user)
         {
-           
+
 
 
             await user.KickAsync();
@@ -93,8 +94,8 @@ namespace GetThisBread.Core.Commands
 
             //await ((ISocketMessageChannel)user.GetChannel(593250389621473290)).SendMessageAsync("User was kicked." + Context.User.GetAvatarUrl());
 
-            
-           
+
+
 
 
 
@@ -126,16 +127,17 @@ namespace GetThisBread.Core.Commands
         //[Command("Unban"), Summary("Unbans the user specified")]
         //public async Task UnBan(Sokcet user)
         //{
-            //await user.UnBan();
+        //await user.UnBan();
         //}
 
 
 
 
 
+
+
+
     }
-
-
 
 
 
