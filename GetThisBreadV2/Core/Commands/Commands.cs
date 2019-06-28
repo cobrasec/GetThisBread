@@ -25,12 +25,14 @@ namespace GetThisBread.Core.Commands
             var userInfo = user ?? Context.Client.CurrentUser;
             //await ReplyAsync($"{userInfo.Username}#{userInfo.Discriminator}#{userInfo.GetAvatarUrl()}");
 
-            //Embed.WithDescription("User Name: " + userInfo.Username + "\n" + "Discriminator: " + "#" + userInfo.Discriminator + "\n" +
-            //"Profile Created on:" + $"[Thing]({userInfo.CreatedAt})");
+            Embed.WithDescription("User Name: " + userInfo.Username + "\n" + "Discriminator: " + "#" + userInfo.Discriminator + "\n" +
+            "Profile Created on:" + $"[Thing]({userInfo.CreatedAt})");
 
-            Embed.AddField("Profile created on", "#" + userInfo.CreatedAt);
 
-            Embed.AddField("User Discriminator", userInfo.Discriminator);
+            //Don't mind these. They are here for testing.
+            //Embed.AddField("Profile created on", "#" + userInfo.CreatedAt);
+
+            //Embed.AddField("User Discriminator", userInfo.Discriminator);
 
 
 

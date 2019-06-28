@@ -42,7 +42,7 @@ namespace GetThisBread
             Commands = new CommandService();
 
 
-            string token = "NTUxMjY5MzUyNjI0NzUwNTky.D1ya8g.kMLnHJOkr_3ffnMsu4ZfQoLpLpk";
+            string token = "TOKEN";
              //using (var Stream = new FileStream((Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)).Replace(@"\bin\Debug\netcoreapp2.1", @"Token.txt"), FileMode.Open, FileAccess.Read))
             // using (var ReadToken = new StreamReader(Stream))
              //{
