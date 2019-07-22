@@ -112,9 +112,6 @@ namespace GetThisBread.Core.Commands
 
 
 
-
-
-
             await user.BanAsync();
 
             await Context.Channel.SendMessageAsync("User has been banned. Cya.");

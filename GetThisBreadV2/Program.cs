@@ -28,9 +28,9 @@ namespace GetThisBread
 
             client = new DiscordSocketClient(new DiscordSocketConfig
             {
-                LogLevel = LogSeverity.Info
+                LogLevel = LogSeverity.Debug
 
-            }) ;
+            });
 
             client.Log += Log;
 
@@ -43,9 +43,9 @@ namespace GetThisBread
 
 
 
-            var token = File.ReadAllText("Token.txt"); 
+            var token = File.ReadAllText("Token.txt");
 
-            
+
 
             services = new ServiceCollection()
                 .BuildServiceProvider();
@@ -57,14 +57,14 @@ namespace GetThisBread
 
             await Task.Delay(-1);
 
-           
+
         }
-        
+
 
         public async Task InstallCommandsAsync()
         {
             // Hook the MessageReceived Event into Command Handler
-             client.MessageReceived += HandleCommandAsync;
+            client.MessageReceived += HandleCommandAsync;
             // Discover all of the commands in this assembly and load them.
             await Commands.AddModulesAsync(assembly: Assembly.GetEntryAssembly(),
 
@@ -110,13 +110,13 @@ namespace GetThisBread
 
         }
 
-        
+
         public async Task AnnoucneJoineduser(SocketGuildUser user) //Welcomes new user
         {
-         
+
             var channel = client.GetChannel(355144831422562327) as SocketTextChannel;
             await channel.SendMessageAsync($"Welcome {user.Mention} to {channel.Guild.Name}");
-            
+
         }
 
         private Task Log(LogMessage msg)
@@ -124,7 +124,7 @@ namespace GetThisBread
             Console.WriteLine(msg.ToString());
             return Task.CompletedTask;
         }
-    
+
 
 
 
@@ -139,3 +139,11 @@ namespace GetThisBread
 
 
 }
+
+
+
+
+
+
+
+
