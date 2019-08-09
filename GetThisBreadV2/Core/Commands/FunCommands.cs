@@ -18,9 +18,28 @@ namespace GetThisBread.Core.Commands.Fun
 
         public async Task Message()
         {
+            Random rand;
+            rand = new Random();
+            string[] randomImage;
+            randomImage = new string[]
+                {
+                    "love1.png", //0
+                    "love2.png", //1
+                    "love3.png", //2
+                    "love4.png", //3
 
-            await Context.Channel.SendMessageAsync("We love bread!");
-            await Context.Channel.SendMessageAsync("https://media.giphy.com/media/1jBDyHoSvHGFi/giphy.gif");
+
+                };
+
+
+            int randomLoveImage = rand.Next(randomImage.Length);
+            string loveImageToPost = randomImage[randomLoveImage];
+            await Context.Channel.SendMessageAsync("Aww you shouldn't have :heart:");
+            await Context.Channel.SendFileAsync(loveImageToPost);
+
+
+
+
 
         }
 
@@ -73,7 +92,28 @@ namespace GetThisBread.Core.Commands.Fun
             await Context.Channel.SendMessageAsync("https://cdn.discordapp.com/attachments/360916041850814465/553422660856446976/unknown.png");
         }
 
-        
+
+
+        [Command("Argument"), Summary("Sends a new ice breaker for everyone to yell at each other")]
+        public async Task Argument()
+        {
+            Random rand;
+            rand = new Random();
+            string[] Argument;
+            Argument = new string[]
+                {
+                    "iPhone or Android?", //0
+                    "Game of Thrones or Lord of the Rings?", //1
+                    "Windows or Mac?", //2
+                    "Will add more, give me a second..."
+                };
+            int randomArgument = rand.Next(Argument.Length);
+            string randomArgumentToPost = Argument[randomArgument];
+            await Context.Channel.SendMessageAsync(randomArgumentToPost);
+
+        }
+
+
         
 
     }
