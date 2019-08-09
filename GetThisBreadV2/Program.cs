@@ -32,7 +32,7 @@ namespace GetThisBread
 
             });
 
-            client.Log += Log;
+            
 
 
 
@@ -118,19 +118,6 @@ namespace GetThisBread
             await channel.SendMessageAsync($"Welcome {user.Mention} to {channel.Guild.Name}");
 
         }
-
-        private Task Log(LogMessage msg)
-        {
-            Console.WriteLine(msg.ToString());
-            return Task.CompletedTask;
-        }
-
-
-
-
-
-
-
 
 
 

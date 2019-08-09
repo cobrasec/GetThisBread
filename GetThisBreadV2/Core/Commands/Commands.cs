@@ -85,21 +85,27 @@ namespace GetThisBread.Core.Commands
         [RequireUserPermission(GuildPermission.KickMembers)]
         public async Task Kick(SocketGuildUser user)
         {
-
+            Random rand;
+            rand = new Random();
+            string[] randomKickMessage;
+            randomKickMessage = new string[]
+                {
+                    "User was kicked. Bye bye.", //0
+                    "User has been given the boot. Git rekt.", //1
+                    "Beep boop, user destroyed.", //2
+                    "Another one bites the dust.", //3
+                    "Thou has yeeteth thy user from kingdom." //4
+                };
 
 
             await user.KickAsync();
+            int KickMessage = rand.Next(randomKickMessage.Length);
+            string messageToPost = randomKickMessage[KickMessage];
+            await Context.Channel.SendMessageAsync(messageToPost);
 
-            await Context.Channel.SendMessageAsync("User was given the boot. Git rekt.");
+            //await Context.Channel.SendMessageAsync("User was given the boot. Git rekt.");
 
             //await ((ISocketMessageChannel)user.GetChannel(593250389621473290)).SendMessageAsync("User was kicked." + Context.User.GetAvatarUrl());
-
-
-
-
-
-
-
 
         }
 
@@ -109,12 +115,22 @@ namespace GetThisBread.Core.Commands
         [RequireUserPermission(GuildPermission.BanMembers)]
         public async Task Ban(SocketGuildUser user)
         {
-
-
-
+            Random rand;
+            rand = new Random();
+            string[] randomBanMessage;
+            randomBanMessage = new string[]
+                {
+                    "Ooo that has to hurt.", //0
+                    "Yikes man, shouldn't have done that.", //1
+                    "Again? Thought the rules stated that. Tsk Tsk.", //2
+                    "Hoo ha you just got hit by, you've been struck by, a smooth criminal.", //3
+                    "You hear that? *cannon thunders in the distance*" //4
+                };
+              
             await user.BanAsync();
-
-            await Context.Channel.SendMessageAsync("User has been banned. Cya.");
+            int banMessage = rand.Next(randomBanMessage.Length);
+            string banMessageToPost = randomBanMessage[banMessage];
+            await Context.Channel.SendMessageAsync(banMessageToPost);
 
             //await ((ISocketMessageChannel)client.GetChannel(593216013793886208)).SendMessageAsync("User was banned." + Context.User.GetAvatarUrl());
 

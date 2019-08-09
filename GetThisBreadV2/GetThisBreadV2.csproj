@@ -19,8 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\Currency\" />
-    <Folder Include="Core\Data\" />
     <Folder Include="Handlers\" />
   </ItemGroup>
 
