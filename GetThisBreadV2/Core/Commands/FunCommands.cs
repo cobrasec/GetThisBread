@@ -16,8 +16,10 @@ namespace GetThisBread.Core.Commands.Fun
         [Command("Bread"), Summary("We love bread!")]
         [Alias("love")]
 
-        public async Task Message()
+        public async Task Message(IUser user = null)
         {
+
+            var userInfo = user ?? Context.Client.CurrentUser;
             Random rand;
             rand = new Random();
             string[] randomImage;
@@ -34,7 +36,8 @@ namespace GetThisBread.Core.Commands.Fun
 
             int randomLoveImage = rand.Next(randomImage.Length);
             string loveImageToPost = randomImage[randomLoveImage];
-            await Context.Channel.SendMessageAsync("Aww you shouldn't have :heart:");
+            //Need to make it ping the specified user while also sending the command runners name. Work in progress.
+            await Context.Channel.SendMessageAsync($"{userInfo.Username} sends love to @{userInfo.Username}");
             await Context.Channel.SendFileAsync(loveImageToPost);
 
 
@@ -93,7 +96,7 @@ namespace GetThisBread.Core.Commands.Fun
         }
 
 
-
+        //Please add new aguments to the Argument string if you have any ideas. 
         [Command("Argument"), Summary("Sends a new ice breaker for everyone to yell at each other")]
         public async Task Argument()
         {
@@ -151,6 +154,7 @@ namespace GetThisBread.Core.Commands.Fun
             await Context.Channel.SendMessageAsync(randomBallToPost);
         }
 
+        //Please add anything to the wouldRather string if you have any ideas. 
         [Command("WYR"), Summary("Bot will ask Would you rather questions to users.")]
         [Alias("Would you rather", "wyr")]
         public async Task WYR([Remainder] string args = null)
@@ -174,6 +178,24 @@ namespace GetThisBread.Core.Commands.Fun
             await Context.Channel.SendMessageAsync(wouldYouRatherToPost);
 
         }
+        //Testing out emoji posting, still a work in progress. 
+        [Command("Test"), Summary("Testing the bots emoji")]
+        public async Task Test()
+        {
+            Random rand;
+            rand = new Random();
+            string[] emojiPost;
+            emojiPost = new string[]
+                {
+                    ":609770219098865677:"
+                };
+            int postEmoji = rand.Next(emojiPost.Length);
+            string emojiToPost = emojiPost[postEmoji];
+            await Context.Channel.SendMessageAsync(emojiToPost);
+
+        }
+
+
 
 
     }

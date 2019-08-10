@@ -33,12 +33,6 @@ namespace GetThisBread
             });
 
 
-
-
-
-
-            client = new DiscordSocketClient();
-
             Commands = new CommandService();
 
 
