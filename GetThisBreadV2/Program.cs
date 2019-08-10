@@ -32,15 +32,12 @@ namespace GetThisBread
 
             });
 
-            
 
 
 
 
-            client = new DiscordSocketClient( new DiscordSocketConfig
-            {
-                LogLevel = LogSeverity.Debug
-            });
+
+            client = new DiscordSocketClient();
 
             Commands = new CommandService();
 
