@@ -4,34 +4,36 @@ using Discord;
 using System.Threading.Tasks;
 using Discord.Commands;
 using System.Linq;
+using Discord.Rest;
 
 namespace GetThisBread.Core.Commands
 
-{
 
+{
 
     public class Admin : ModuleBase
 
 
     {
 
+
         [Command("Userinfo"), Summary("Returns the users info")]
         [Alias("user", "whois")]
+        [RequireUserPermission(Discord.GuildPermission.Administrator)]
         public async Task UserInfo([Summary("The (optional) user to get info for")] IUser user = null)
         {
             EmbedBuilder Embed = new EmbedBuilder();
 
+            if (user.IsBot)
+            {
+                await Context.Channel.SendMessageAsync("Sorry but I cannot proivide the info for this user as it is a bot!");
+                return;
+            }
+
 
             var userInfo = user ?? Context.Client.CurrentUser;
-            //await ReplyAsync($"{userInfo.Username}#{userInfo.Discriminator}#{userInfo.GetAvatarUrl()}");
 
-            // Embed.WithDescription("User Name: " + userInfo.Username + "\n" + "Discriminator: " + "#" + userInfo.Discriminator + "\n" +
-            //"Profile Created on: " + userInfo.CreatedAt);
-
-
-
-
-            //Don't mind these. They are here for testing.
+            //Embed for the Users info. 
             Embed.AddField("Profile created on.", " " + userInfo.CreatedAt);
             Embed.AddField("User Discriminator.", "\n" + "#" + userInfo.Discriminator);
             Embed.AddField("Users Status.", userInfo.Status);
@@ -83,8 +85,15 @@ namespace GetThisBread.Core.Commands
         [Command("Kick"), Summary("Kicks the user specified")]
         [Alias("kick", "k")]
         [RequireUserPermission(GuildPermission.KickMembers)]
-        public async Task Kick(SocketGuildUser user)
+        public async Task Kick(SocketGuildUser user = null)
         {
+
+            if (user == null)
+            {
+                await Context.Channel.SendMessageAsync("You didn't specifie a user. Please @ them or type in their name manually with discriminator number.");
+                return;
+            }
+
             Random rand;
             rand = new Random();
             string[] randomKickMessage;
@@ -103,9 +112,8 @@ namespace GetThisBread.Core.Commands
             string messageToPost = randomKickMessage[KickMessage];
             await Context.Channel.SendMessageAsync(messageToPost);
 
-            //await Context.Channel.SendMessageAsync("User was given the boot. Git rekt.");
 
-            //await ((ISocketMessageChannel)user.GetChannel(593250389621473290)).SendMessageAsync("User was kicked." + Context.User.GetAvatarUrl());
+           // await ((ISocketMessageChannel)user.GetOrCreateDMChannelAsync()).SendMessageAsync("Sorry but you were kicked. Please DM a mod if you believe this was wrong.");
 
         }
 
@@ -120,13 +128,13 @@ namespace GetThisBread.Core.Commands
             string[] randomBanMessage;
             randomBanMessage = new string[]
                 {
-                    "Ooo that has to hurt.", //0
+                    "Ooo that had to hurt.", //0
                     "Yikes man, shouldn't have done that.", //1
                     "Again? Thought the rules stated that. Tsk Tsk.", //2
                     "Hoo ha you just got hit by, you've been struck by, a smooth criminal.", //3
                     "You hear that? *cannon thunders in the distance*" //4
                 };
-              
+
             await user.BanAsync();
             int banMessage = rand.Next(randomBanMessage.Length);
             string banMessageToPost = randomBanMessage[banMessage];
@@ -137,24 +145,93 @@ namespace GetThisBread.Core.Commands
 
         }
 
-        //[Command("Unban"), Summary("Unbans the user specified")]
-        //public async Task UnBan(Sokcet user)
-        //{
-        //await user.UnBan();
-        //}
+        [Command("Mute"), Summary("Mute a specified user")]
+        [Alias("mute", "M")]
+        [RequireBotPermission(GuildPermission.ManageRoles)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task Mute(SocketGuildUser user = null)
+        {
+
+            DiscordSocketClient client = new DiscordSocketClient();
+
+
+            if (user == null)
+            {
+                await Context.Channel.SendMessageAsync(":x: Hey you didn't specifie a user to mute! Please mention them or type their name with discriminator.");
+                return;
+            }
+
+            if (user.IsBot)
+            {
+                await Context.Channel.SendMessageAsync(":x: Hey sorry but you can't mute bots.");
+                return;
+            }
+
+
+            ulong roleID = 610583233771339777;
+            var role = Context.Guild.GetRole(roleID);
+            await user.AddRoleAsync(role);
+            await Context.Channel.SendMessageAsync($":white_check_mark: User {user.Username} has been muted.");
+
+            //ulong channelID = 610592394383196173;
+            // var channel = Context.Guild.GetChannelAsync(channelID);
+
+            //await Context.Channel.SendMessageAsync($"User {user.Username} was muted." + (channel));
+
+            //await ((ISocketMessageChannel)client.GetChannel(610592394383196173)).SendMessageAsync($"User {user.Username} was muted." + Context.User.GetAvatarUrl());
+
+
+        }
+
+
+        [Command("Unmute"), Summary("Unmute a specified user.")]
+        [Alias("unmute", "um")]
+        [RequireBotPermission(GuildPermission.ManageRoles)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task UnMute(SocketGuildUser user = null)
+        {
+            if (user == null)
+            {
+                await Context.Channel.SendMessageAsync(":x: You didn't specifie a user to unmute! Please @ them or type in their name.");
+                return;
+            }
+
+            if (user.IsBot)
+            {
+                await Context.Channel.SendMessageAsync(":x: Sory but bots can't be affected by both mute and unmute.");
+                return;
+            }
+
+            if (Context.Message.Content.Contains("Thing"))
+            {
+                await Context.Channel.SendMessageAsync("No u");
+            }
+
+            ulong roleID = 610583233771339777;
+            var role = Context.Guild.GetRole(roleID);
+            await user.RemoveRoleAsync(role);
+            await Context.Channel.SendMessageAsync($":white_check_mark: User {user.Username} has been unmuted.");
+
+
+        }
 
 
 
-
-
-
-
-
+        
     }
+   
 
 
 
 }
+
+
+
+
+
+
+
+
 
 
 
