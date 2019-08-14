@@ -45,7 +45,7 @@ namespace GetThisBread
                 .BuildServiceProvider();
 
             await InstallCommandsAsync();
-            await client.SetGameAsync("Use Bread for commands!");
+            await client.SetGameAsync("Use b! for commands!");
             await client.LoginAsync(TokenType.Bot, token);
             await client.StartAsync();
 
@@ -86,7 +86,7 @@ namespace GetThisBread
             // Determine if the message is a command, based on if it starts with '!' or a mention prefix
 
 
-            if (!(message.HasStringPrefix("Bread" + " ", ref argPos) || message.HasMentionPrefix(client.CurrentUser, ref argPos)) ||
+            if (!(message.HasStringPrefix("b!" + " ", ref argPos) || message.HasMentionPrefix(client.CurrentUser, ref argPos)) ||
                 message.Author.IsBot) return;
 
             // Command Context

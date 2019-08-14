@@ -26,10 +26,14 @@ namespace GetThisBread.Core.Commands
 
             if (user.IsBot)
             {
-                await Context.Channel.SendMessageAsync("Sorry but I cannot proivide the info for this user as it is a bot!");
+                await Context.Channel.SendMessageAsync(":x: Sorry but I cannot proivide the info for this user as it is a bot!");
                 return;
             }
 
+            if (user == null)
+            {
+                await Context.Channel.SendMessageAsync(":x: Whoops, you didn't provide a user name! Please mention a user.");
+            }
 
             var userInfo = user ?? Context.Client.CurrentUser;
 
@@ -39,10 +43,9 @@ namespace GetThisBread.Core.Commands
             Embed.AddField("Users Status.", userInfo.Status);
             Embed.AddField("User name (if they have a nick.)", userInfo.Username);
 
-
             Embed.WithThumbnailUrl("" + userInfo.GetAvatarUrl());
             Embed.WithColor(17, 0, 255);
-            Embed.WithFooter("");
+            Embed.WithFooter("User info.");
 
             await Context.Channel.SendMessageAsync("Here ya go!", false, Embed.Build());
             //await Context.Channel.SendMessageAsync("Here ya go!");
