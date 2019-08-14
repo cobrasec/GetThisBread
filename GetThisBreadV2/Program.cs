@@ -29,7 +29,7 @@ namespace GetThisBread
             client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 LogLevel = LogSeverity.Debug
-
+                
             });
 
 
@@ -45,11 +45,16 @@ namespace GetThisBread
                 .BuildServiceProvider();
 
             await InstallCommandsAsync();
-
+            await client.SetGameAsync("Use Bread for commands!");
             await client.LoginAsync(TokenType.Bot, token);
             await client.StartAsync();
 
             await Task.Delay(-1);
+
+            
+            
+
+
 
 
         }
@@ -111,9 +116,15 @@ namespace GetThisBread
             var channel = client.GetChannel(355144831422562327) as SocketTextChannel;
             await channel.SendMessageAsync($"Welcome {user.Mention} to {channel.Guild.Name}");
 
+            
+
         }
 
        
+
+        
+
+
 
 
     }

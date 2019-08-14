@@ -121,8 +121,23 @@ namespace GetThisBread.Core.Commands
         [Command("Ban"), Summary("Bans the user specified")]
         [Alias("ban", "b")]
         [RequireUserPermission(GuildPermission.BanMembers)]
-        public async Task Ban(SocketGuildUser user)
+        public async Task Ban(SocketGuildUser user = null)
         {
+
+            if (user == null)
+            {
+                await Context.Channel.SendMessageAsync(":x: You didn't specifie a user. Please mention them or type their name.");
+                return;
+            }
+
+            if (user.IsBot)
+            {
+                await Context.Channel.SendMessageAsync(":x: You can't ban a bot. If you want it gone you can kick it or remove it manually.");
+                return;
+            }
+
+
+
             Random rand;
             rand = new Random();
             string[] randomBanMessage;
@@ -152,9 +167,6 @@ namespace GetThisBread.Core.Commands
         public async Task Mute(SocketGuildUser user = null)
         {
 
-            DiscordSocketClient client = new DiscordSocketClient();
-
-
             if (user == null)
             {
                 await Context.Channel.SendMessageAsync(":x: Hey you didn't specifie a user to mute! Please mention them or type their name with discriminator.");
@@ -167,11 +179,17 @@ namespace GetThisBread.Core.Commands
                 return;
             }
 
+            
 
-            ulong roleID = 610583233771339777;
+
+            ulong roleID = 610640079823568933;
             var role = Context.Guild.GetRole(roleID);
             await user.AddRoleAsync(role);
             await Context.Channel.SendMessageAsync($":white_check_mark: User {user.Username} has been muted.");
+
+            ulong roleRemove = 418240237123272704;
+            var removeRole = Context.Guild.GetRole(roleRemove);
+            await user.RemoveRoleAsync(removeRole);
 
             //ulong channelID = 610592394383196173;
             // var channel = Context.Guild.GetChannelAsync(channelID);
@@ -207,10 +225,14 @@ namespace GetThisBread.Core.Commands
                 await Context.Channel.SendMessageAsync("No u");
             }
 
-            ulong roleID = 610583233771339777;
+            ulong roleID = 610640079823568933;
             var role = Context.Guild.GetRole(roleID);
             await user.RemoveRoleAsync(role);
             await Context.Channel.SendMessageAsync($":white_check_mark: User {user.Username} has been unmuted.");
+
+            ulong grantRole = 418240237123272704;
+            var roleGrant = Context.Guild.GetRole(grantRole);
+            await user.AddRoleAsync(roleGrant);
 
 
         }
