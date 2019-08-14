@@ -4,7 +4,6 @@ using Discord;
 using System.Threading.Tasks;
 using Discord.Commands;
 using System.Linq;
-using Discord.Rest;
 
 namespace GetThisBread.Core.Commands
 
@@ -20,7 +19,7 @@ namespace GetThisBread.Core.Commands
         [Command("Userinfo"), Summary("Returns the users info")]
         [Alias("user", "whois")]
         [RequireUserPermission(Discord.GuildPermission.Administrator)]
-        public async Task UserInfo([Summary("The (optional) user to get info for")] IUser user = null)
+        public async Task UserInfo(SocketGuildUser user = null)
         {
             EmbedBuilder Embed = new EmbedBuilder();
 
@@ -33,17 +32,18 @@ namespace GetThisBread.Core.Commands
             if (user == null)
             {
                 await Context.Channel.SendMessageAsync(":x: Whoops, you didn't provide a user name! Please mention a user.");
+                return;
             }
 
-            var userInfo = user ?? Context.Client.CurrentUser;
+            
 
             //Embed for the Users info. 
-            Embed.AddField("Profile created on.", " " + userInfo.CreatedAt);
-            Embed.AddField("User Discriminator.", "\n" + "#" + userInfo.Discriminator);
-            Embed.AddField("Users Status.", userInfo.Status);
-            Embed.AddField("User name (if they have a nick.)", userInfo.Username);
+            Embed.AddField("Profile created on.", " " + user.CreatedAt);
+            Embed.AddField("User Discriminator.", "\n" + "#" + user.Discriminator);
+            Embed.AddField("Users Status.", user.Status);
+            Embed.AddField("User name (if they have a nick.)", user.Username);
 
-            Embed.WithThumbnailUrl("" + userInfo.GetAvatarUrl());
+            Embed.WithThumbnailUrl("" + user.GetAvatarUrl());
             Embed.WithColor(17, 0, 255);
             Embed.WithFooter("User info.");
 
@@ -93,7 +93,7 @@ namespace GetThisBread.Core.Commands
 
             if (user == null)
             {
-                await Context.Channel.SendMessageAsync("You didn't specifie a user. Please @ them or type in their name manually with discriminator number.");
+                await Context.Channel.SendMessageAsync("You didn't specify a user. Please @ them or type in their name manually with discriminator number.");
                 return;
             }
 
@@ -129,7 +129,7 @@ namespace GetThisBread.Core.Commands
 
             if (user == null)
             {
-                await Context.Channel.SendMessageAsync(":x: You didn't specifie a user. Please mention them or type their name.");
+                await Context.Channel.SendMessageAsync(":x: You didn't specify a user. Please mention them or type their name.");
                 return;
             }
 
@@ -171,7 +171,7 @@ namespace GetThisBread.Core.Commands
 
             if (user == null)
             {
-                await Context.Channel.SendMessageAsync(":x: Hey you didn't specifie a user to mute! Please mention them or type their name with discriminator.");
+                await Context.Channel.SendMessageAsync(":x: Hey you didn't specify a user to mute! Please mention them or type their name with discriminator.");
                 return;
             }
 
@@ -212,7 +212,7 @@ namespace GetThisBread.Core.Commands
         {
             if (user == null)
             {
-                await Context.Channel.SendMessageAsync(":x: You didn't specifie a user to unmute! Please @ them or type in their name.");
+                await Context.Channel.SendMessageAsync(":x: You didn't specify a user to unmute! Please @ them or type in their name.");
                 return;
             }
 
