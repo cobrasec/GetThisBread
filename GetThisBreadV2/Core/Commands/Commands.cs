@@ -136,7 +136,6 @@ namespace GetThisBread.Core.Commands
                 return;
             }
 
-            //test webhook testing it again...
 
             Random rand;
             rand = new Random();
