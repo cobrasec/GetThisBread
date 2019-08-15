@@ -7,10 +7,10 @@ using System.Linq;
 
 namespace GetThisBread.Core.Commands
 
-
+    //Commands for staff in the discord.
 {
 
-    public class Admin : ModuleBase
+    public class Staff : ModuleBase
 
 
     {
@@ -23,15 +23,15 @@ namespace GetThisBread.Core.Commands
         {
             EmbedBuilder Embed = new EmbedBuilder();
 
-            if (user.IsBot)
+            if (user == null)
             {
-                await Context.Channel.SendMessageAsync(":x: Sorry but I cannot proivide the info for this user as it is a bot!");
+                await Context.Channel.SendMessageAsync(":x: Whoops, you didn't provide a user name or a mention!");
                 return;
             }
 
-            if (user == null)
+            if (user.IsBot)
             {
-                await Context.Channel.SendMessageAsync(":x: Whoops, you didn't provide a user name! Please mention a user.");
+                await Context.Channel.SendMessageAsync(":x: Can't use this command on bots!");
                 return;
             }
 
@@ -45,7 +45,7 @@ namespace GetThisBread.Core.Commands
 
             Embed.WithThumbnailUrl("" + user.GetAvatarUrl());
             Embed.WithColor(17, 0, 255);
-            Embed.WithFooter("User info.");
+            Embed.WithFooter("Why do I need a footer?");
 
             await Context.Channel.SendMessageAsync("Here ya go!", false, Embed.Build());
             //await Context.Channel.SendMessageAsync("Here ya go!");

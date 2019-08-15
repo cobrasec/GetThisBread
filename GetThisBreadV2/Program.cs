@@ -29,11 +29,14 @@ namespace GetThisBread
             client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 LogLevel = LogSeverity.Debug
-                
+
             });
 
 
-            Commands = new CommandService();
+            Commands = new CommandService(new CommandServiceConfig
+            {
+                LogLevel = LogSeverity.Debug
+            });
 
 
 
@@ -48,11 +51,11 @@ namespace GetThisBread
             await client.SetGameAsync("Use b! for commands!");
             await client.LoginAsync(TokenType.Bot, token);
             await client.StartAsync();
-
+            client.Log += LogAsync;
             await Task.Delay(-1);
 
-            
-            
+
+
 
 
 
@@ -116,13 +119,15 @@ namespace GetThisBread
             var channel = client.GetChannel(355144831422562327) as SocketTextChannel;
             await channel.SendMessageAsync($"Welcome {user.Mention} to {channel.Guild.Name}");
 
-            
+
 
         }
 
-       
-
-        
+        private Task LogAsync(LogMessage logMessage)
+        {
+            Console.WriteLine(logMessage.Message);
+            return Task.CompletedTask;
+        }
 
 
 
