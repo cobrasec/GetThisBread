@@ -171,13 +171,13 @@ namespace GetThisBread.Core.Commands
 
             if (user == null)
             {
-                await Context.Channel.SendMessageAsync(":x: Hey you didn't specify a user to mute! Please mention them or type their name with discriminator.");
+                await Context.Channel.SendMessageAsync(":x: Hey! You didn't specify a user to mute! Please mention them or type their name with discriminator.");
                 return;
             }
 
             if (user.IsBot)
             {
-                await Context.Channel.SendMessageAsync(":x: Hey sorry but you can't mute bots.");
+                await Context.Channel.SendMessageAsync(":x: Sorry but you can't mute bots.");
                 return;
             }
 
@@ -187,18 +187,21 @@ namespace GetThisBread.Core.Commands
             ulong roleID = 610640079823568933;
             var role = Context.Guild.GetRole(roleID);
             await user.AddRoleAsync(role);
-            await Context.Channel.SendMessageAsync($":white_check_mark: User {user.Username} has been muted.");
+            await Context.Channel.SendMessageAsync($":white_check_mark: User {user.Mention} has been muted.");
 
-            ulong roleRemove = 418240237123272704;
-            var removeRole = Context.Guild.GetRole(roleRemove);
-            await user.RemoveRoleAsync(removeRole);
+            //working on DMing the user letting them know they were muted. Will put this with the ban and kick commands once I figure it out.
 
-            //ulong channelID = 610592394383196173;
-            // var channel = Context.Guild.GetChannelAsync(channelID);
+            //var userDM = await Context.User.GetOrCreateDMChannelAsync();
+           // await userDM.SendMessageAsync("Sorry but you were muted by a mod or admin.");
 
-            //await Context.Channel.SendMessageAsync($"User {user.Username} was muted." + (channel));
 
-            //await ((ISocketMessageChannel)client.GetChannel(610592394383196173)).SendMessageAsync($"User {user.Username} was muted." + Context.User.GetAvatarUrl());
+            //Working on logging the muted users in a respected channel.
+            var channel = Context.Guild.GetChannelAsync(613090719044861952);
+
+            await Context.Channel.SendMessageAsync((channel) + $"User {user.Mention} was muted.");
+
+
+           // await ((ISocketMessageChannel)client.GetChannel(610592394383196173)).SendMessageAsync($"User {user.Username} was muted." + Context.User.GetAvatarUrl());
 
 
         }
@@ -212,7 +215,7 @@ namespace GetThisBread.Core.Commands
         {
             if (user == null)
             {
-                await Context.Channel.SendMessageAsync(":x: You didn't specify a user to unmute! Please @ them or type in their name.");
+                await Context.Channel.SendMessageAsync($":x:{user.Mention} You didn't specify a user to unmute! Please @ them or type in their name.");
                 return;
             }
 
@@ -230,7 +233,7 @@ namespace GetThisBread.Core.Commands
             ulong roleID = 610640079823568933;
             var role = Context.Guild.GetRole(roleID);
             await user.RemoveRoleAsync(role);
-            await Context.Channel.SendMessageAsync($":white_check_mark: User {user.Username} has been unmuted.");
+            await Context.Channel.SendMessageAsync($":white_check_mark: User {user.Mention} has been unmuted.");
 
             ulong grantRole = 418240237123272704;
             var roleGrant = Context.Guild.GetRole(grantRole);

@@ -104,7 +104,8 @@ namespace GetThisBread
 
 
             // Hook into the UserJoined event
-            //client.UserJoined += AnnounceJoinedUser;
+            client.UserJoined += AnnoucneJoineduser;
+            client.UserLeft += AnnounceUserLeft;
 
 
 
@@ -116,11 +117,17 @@ namespace GetThisBread
         public async Task AnnoucneJoineduser(SocketGuildUser user) //Welcomes new user
         {
 
-            var channel = client.GetChannel(355144831422562327) as SocketTextChannel;
-            await channel.SendMessageAsync($"Welcome {user.Mention} to {channel.Guild.Name}");
+            var channel = client.GetChannel(611395013653430275) as SocketTextChannel;
+            await channel.SendMessageAsync($"Welcome {user.Mention} to {channel.Guild.Name}! My name is Bread and I run the code around here. \n " +
+                $"Please type b! help to get started in my channel #bot. Enjoy the stay and thanks for joining!");
+
+        }
 
 
-
+        public async Task AnnounceUserLeft(SocketGuildUser user)
+        {
+            var channel = client.GetChannel(489175046317670412) as SocketTextChannel;
+            await channel.SendMessageAsync($"Bye {user.Mention}! Hope to see you again soon!");
         }
 
         private Task LogAsync(LogMessage logMessage)
