@@ -70,8 +70,17 @@ namespace GetThisBread.Core.Commands
         [Command("UserPurge"), Summary("Purges a specified users messages")]
         [Alias("userp", "userdel")]
         [RequireBotPermission(GuildPermission.ManageMessages)]
-        public async Task Clear(SocketGuildUser user, int amountOfMessagesToDelete = 100)
+        public async Task Clear(SocketGuildUser user = null, int amountOfMessagesToDelete = 20)
         {
+
+            if (user == null)
+            {
+                await Context.Channel.SendMessageAsync(":x: You didn't specify a user to purge! @ them or type their username!");
+                return;
+            }
+
+
+
             if (user == Context.User)
                 amountOfMessagesToDelete++; //Because it will count the purge command as a message
 
@@ -82,6 +91,8 @@ namespace GetThisBread.Core.Commands
             await (Context.Message.Channel as SocketTextChannel).DeleteMessagesAsync(result);
 
             await Context.Channel.SendMessageAsync("Users messages have been purged!");
+
+            
 
         }
 
