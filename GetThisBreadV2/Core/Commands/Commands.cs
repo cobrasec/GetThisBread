@@ -14,41 +14,41 @@ namespace GetThisBread.Core.Commands
 
 
     {
-
-
-        [Command("Userinfo"), Summary("Returns the users info")]
-        [Alias("user", "whois")]
-        [RequireUserPermission(Discord.GuildPermission.Administrator)]
+        [Command("userinfo"), Summary("Returns the users profile info")]
+        [Alias("user")]
+        [RequireUserPermission(Discord.GuildPermission.KickMembers)]
         public async Task UserInfo(SocketGuildUser user = null)
         {
+
             EmbedBuilder Embed = new EmbedBuilder();
 
             if (user == null)
             {
-                await Context.Channel.SendMessageAsync(":x: Whoops, you didn't provide a user name or a mention!");
+                await Context.Channel.SendMessageAsync(":x: Whoops, you didn't provide a username or a mention! **Use b! user <@user>**");
                 return;
             }
-
             if (user.IsBot)
             {
-                await Context.Channel.SendMessageAsync(":x: Can't use this command on bots!");
+                await Context.Channel.SendMessageAsync(":x: Sorry but I cannot provide info for a bots as they are not users!");
                 return;
             }
 
-            
+            //Embed for userinfo
 
-            //Embed for the Users info. 
-            Embed.AddField("Profile created on.", " " + user.CreatedAt);
-            Embed.AddField("User Discriminator.", "\n" + "#" + user.Discriminator);
-            Embed.AddField("Users Status.", user.Status);
-            Embed.AddField("User name (if they have a nick.)", user.Username);
+            var userCreate = user.CreatedAt.LocalDateTime.ToString("dddd, dd MMMM yyyy");
 
-            Embed.WithThumbnailUrl("" + user.GetAvatarUrl());
+            Embed.AddField("Profile created on:", "\n" + userCreate, true);
+            Embed.AddField("User dicriminator:", "\n" + user.Discriminator, false);
+            Embed.AddField("Users status:", user.Status, true);
             Embed.WithColor(17, 0, 255);
-            Embed.WithFooter("Why do I need a footer?");
+            Embed.WithFooter($"Action was performed by {Context.User.Username}.");
+            Embed.WithTitle($"{user.Username}'s info has been provided.");
 
-            await Context.Channel.SendMessageAsync("Here ya go!", false, Embed.Build());
-            //await Context.Channel.SendMessageAsync("Here ya go!");
+            Embed.WithFields();
+            Embed.WithThumbnailUrl(user.GetAvatarUrl());
+
+            await Context.Channel.SendMessageAsync("yoink", false, Embed.Build());
+
 
         }
 
@@ -99,35 +99,48 @@ namespace GetThisBread.Core.Commands
         [Command("Kick"), Summary("Kicks the user specified")]
         [Alias("kick", "k")]
         [RequireUserPermission(GuildPermission.KickMembers)]
-        public async Task Kick(SocketGuildUser user = null)
+        public async Task Kick(SocketGuildUser user = null, [Remainder] string reason = "Reason not provided.")
         {
 
+            EmbedBuilder Embed = new EmbedBuilder();
             if (user == null)
             {
-                await Context.Channel.SendMessageAsync("You didn't specify a user. Please @ them or type in their name manually with discriminator number.");
+                await Context.Channel.SendMessageAsync(":x: You didn't specify a user!");
                 return;
             }
 
-            Random rand;
-            rand = new Random();
-            string[] randomKickMessage;
-            randomKickMessage = new string[]
-                {
-                    "User was kicked. Bye bye.", //0
-                    "User has been given the boot. Git rekt.", //1
-                    "Beep boop, user destroyed.", //2
-                    "Another one bites the dust.", //3
-                    "Thou has yeeteth thy user from kingdom." //4
-                };
+            if (user.IsBot)
+            {
+                await Context.Channel.SendMessageAsync(":x: If you want to kick bots do it manually! *This is a security feature*");
+                return;
+            }
 
+            if (reason == "Reason not provided.")
+            {
+                await Context.Channel.SendMessageAsync(":x: You didn't provide a reason!");
+                return;
+            }
+
+            //If the user was mentioned and isn't a bot this will execute.
 
             await user.KickAsync();
-            int KickMessage = rand.Next(randomKickMessage.Length);
-            string messageToPost = randomKickMessage[KickMessage];
-            await Context.Channel.SendMessageAsync(messageToPost);
+
+            //Shows the date the user was kicked on
+            var date = Context.Message.CreatedAt.ToString("dddd, dd MMMM yyyy");
+
+            //This is the embed for the kick
+            Embed.WithTitle("User kicked information.");
+            Embed.AddField("Username:", user.Username, true);
+            Embed.AddField("Kicked by:", Context.User.Mention, true);
+            Embed.AddField("Kicked on:", date, true);
+            Embed.AddField("Reason:", reason, true);
+            Embed.WithColor(255, 30, 6);
+            Embed.WithThumbnailUrl(user.GetAvatarUrl());
+
+            await Context.Channel.SendMessageAsync($"{user.Username} was kicked! Providing info of the kick...", false, Embed.Build());
 
 
-           // await ((ISocketMessageChannel)user.GetOrCreateDMChannelAsync()).SendMessageAsync("Sorry but you were kicked. Please DM a mod if you believe this was wrong.");
+            await ((ISocketMessageChannel)user.GetOrCreateDMChannelAsync()).SendMessageAsync("Sorry but you were kicked. Please DM a mod if you believe this was wrong.");
 
         }
 
