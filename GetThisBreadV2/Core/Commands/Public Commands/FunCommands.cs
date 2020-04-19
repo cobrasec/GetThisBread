@@ -16,28 +16,39 @@ namespace GetThisBread.Core.Commands.Fun
         [Command("Bread"), Summary("We love bread!")]
         [Alias("love")]
 
-        public async Task Message(IUser user = null)
+        public async Task Message(SocketGuildUser user = null)
         {
 
-            var userInfo = user ?? Context.Client.CurrentUser;
+            var userInfo = Context.User.Username;
+            
             Random rand;
             rand = new Random();
             string[] randomImage;
             randomImage = new string[]
                 {
-                    "love1.png", //0
-                    "love2.png", //1
-                    "love3.png", //2
-                    "love4.png", //3
-
+                    "love1.png", 
+                    "love2.png", 
+                    "love3.png", 
+                    "love4.png", 
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
 
                 };
-
-
             int randomLoveImage = rand.Next(randomImage.Length);
             string loveImageToPost = randomImage[randomLoveImage];
+
+            if (user == null)
+            {
+                await Context.Channel.SendMessageAsync($"{userInfo} just wanted me to send a heart to them awww :heart:");
+                return;
+            }
+
+           
+
             //Need to make it ping the specified user while also sending the command runners name. Work in progress.
-            await Context.Channel.SendMessageAsync($"{userInfo.Username} sends love to @{userInfo.Username}");
+            await Context.Channel.SendMessageAsync($"{userInfo} sends love to {user.Mention}");
             await Context.Channel.SendFileAsync(loveImageToPost);
 
 
@@ -178,22 +189,16 @@ namespace GetThisBread.Core.Commands.Fun
             await Context.Channel.SendMessageAsync(wouldYouRatherToPost);
 
         }
-        //Testing out emoji posting, still a work in progress. 
-        [Command("Test"), Summary("Testing the bots emoji")]
-        public async Task Test()
-        {
-            Random rand;
-            rand = new Random();
-            string[] emojiPost;
-            emojiPost = new string[]
-                {
-                    ":609770219098865677:"
-                };
-            int postEmoji = rand.Next(emojiPost.Length);
-            string emojiToPost = emojiPost[postEmoji];
-            await Context.Channel.SendMessageAsync(emojiToPost);
+        
 
-        }
+        [Command("appreciate"), Summary("We appreciate you!")]
+       
+       public async Task Appreciate()
+       {
+            await Context.Channel.SendMessageAsync("We appreciate you! <:ahhh:678033594693976084>");
+       }
+
+        
 
 
 

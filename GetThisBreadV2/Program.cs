@@ -48,7 +48,7 @@ namespace GetThisBread
                 .BuildServiceProvider();
 
             await InstallCommandsAsync();
-            await client.SetGameAsync("Use b! for commands!");
+            await client.SetGameAsync("Use b!help to get started!");
             await client.LoginAsync(TokenType.Bot, token);
             await client.StartAsync();
             client.Log += LogAsync;
@@ -89,7 +89,7 @@ namespace GetThisBread
             // Determine if the message is a command, based on if it starts with '!' or a mention prefix
 
 
-            if (!(message.HasStringPrefix("b!" + " ", ref argPos) || message.HasMentionPrefix(client.CurrentUser, ref argPos)) ||
+            if (!(message.HasStringPrefix("b!", ref argPos) || message.HasMentionPrefix(client.CurrentUser, ref argPos)) ||
                 message.Author.IsBot) return;
 
             // Command Context
@@ -104,22 +104,15 @@ namespace GetThisBread
 
 
             // Hook into the UserJoined event
-            client.UserJoined += AnnoucneJoineduser;
+            client.UserJoined += HandleUserJoinedAsync;
             client.UserLeft += AnnounceUserLeft;
-
-
-
-
-
         }
 
 
-        public async Task AnnoucneJoineduser(SocketGuildUser user) //Welcomes new user
+        public async Task HandleUserJoinedAsync (SocketGuildUser user) //Welcomes new user
         {
-
-            var channel = client.GetChannel(611395013653430275) as SocketTextChannel;
-            await channel.SendMessageAsync($"Welcome {user.Mention} to {channel.Guild.Name}! My name is Bread and I run the code around here. \n " +
-                $"Please type b! help to get started in my channel #bot. Enjoy the stay and thanks for joining!");
+            var channel = client.GetChannel(417942280377335810) as SocketTextChannel;
+            await channel.SendMessageAsync($"#PoggersFor{user.Mention}!");
 
         }
 
@@ -135,6 +128,7 @@ namespace GetThisBread
             Console.WriteLine(logMessage.Message);
             return Task.CompletedTask;
         }
+
 
 
 

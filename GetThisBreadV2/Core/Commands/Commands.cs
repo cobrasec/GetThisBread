@@ -5,20 +5,26 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using System.Linq;
 
+
 namespace GetThisBread.Core.Commands
 
     //Commands for staff in the discord.
-{
 
+     
+{
+    
     public class Staff : ModuleBase
 
 
     {
+
+
         [Command("userinfo"), Summary("Returns the users profile info")]
         [Alias("user")]
         [RequireUserPermission(Discord.GuildPermission.KickMembers)]
         public async Task UserInfo(SocketGuildUser user = null)
         {
+          
 
             EmbedBuilder Embed = new EmbedBuilder();
 
@@ -140,7 +146,8 @@ namespace GetThisBread.Core.Commands
             await Context.Channel.SendMessageAsync($"{user.Username} was kicked! Providing info of the kick...", false, Embed.Build());
 
 
-            await ((ISocketMessageChannel)user.GetOrCreateDMChannelAsync()).SendMessageAsync("Sorry but you were kicked. Please DM a mod if you believe this was wrong.");
+            await user.SendMessageAsync($"You were kicked with the reason:`{reason}`. You are allowed to join back, just know there will be repurcussions due to your behavior. \n " +
+                $"Be on good behavior and you will not recieve a kick.  Just know that next time you break a rule or bad mouth someone you will be muted.  If you enter DMs you will be banned.");
 
         }
 
@@ -148,7 +155,7 @@ namespace GetThisBread.Core.Commands
         [Command("Ban"), Summary("Bans the user specified")]
         [Alias("ban", "b")]
         [RequireUserPermission(GuildPermission.BanMembers)]
-        public async Task Ban(SocketGuildUser user = null)
+        public async Task Ban(SocketGuildUser user = null, [Remainder] string reason = "Reason wasn't provided.")
         {
 
             if (user == null)
@@ -163,25 +170,11 @@ namespace GetThisBread.Core.Commands
                 return;
             }
 
-
-            Random rand;
-            rand = new Random();
-            string[] randomBanMessage;
-            randomBanMessage = new string[]
-                {
-                    "Ooo that had to hurt.", //0
-                    "Yikes man, shouldn't have done that.", //1
-                    "Again? Thought the rules stated that. Tsk Tsk.", //2
-                    "Hoo ha you just got hit by, you've been struck by, a smooth criminal.", //3
-                    "You hear that? *cannon thunders in the distance*" //4
-                };
+            
 
             await user.BanAsync();
-            int banMessage = rand.Next(randomBanMessage.Length);
-            string banMessageToPost = randomBanMessage[banMessage];
-            await Context.Channel.SendMessageAsync(banMessageToPost);
-
-            //await ((ISocketMessageChannel)client.GetChannel(593216013793886208)).SendMessageAsync("User was banned." + Context.User.GetAvatarUrl());
+            await user.SendMessageAsync($"You were banned with the reason:`{reason}`.\n " +
+                $"If you would like to appeal");
 
 
         }
@@ -190,8 +183,9 @@ namespace GetThisBread.Core.Commands
         [Alias("mute", "M")]
         [RequireBotPermission(GuildPermission.ManageRoles)]
         [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task Mute(SocketGuildUser user = null)
+        public async Task Mute(SocketGuildUser user = null, [Remainder] string reason = "Reason not provided.")
         {
+            EmbedBuilder Embed = new EmbedBuilder();
 
             if (user == null)
             {
@@ -205,28 +199,24 @@ namespace GetThisBread.Core.Commands
                 return;
             }
 
-            
 
-
-            ulong roleID = 610640079823568933;
+            ulong roleID = 693626452687716392;
             var role = Context.Guild.GetRole(roleID);
             await user.AddRoleAsync(role);
-            await Context.Channel.SendMessageAsync($":white_check_mark: User {user.Mention} has been muted.");
-
-            //working on DMing the user letting them know they were muted. Will put this with the ban and kick commands once I figure it out.
-
-            //var userDM = await Context.User.GetOrCreateDMChannelAsync();
-           // await userDM.SendMessageAsync("Sorry but you were muted by a mod or admin.");
 
 
-            //Working on logging the muted users in a respected channel.
-            var channel = Context.Guild.GetChannelAsync(613090719044861952);
+            var date = Context.Message.CreatedAt.ToString("dddd, dd MMMM yyyy");
+            //This is the embed for the mute.
+            Embed.WithTitle("User kicked information.");
+            Embed.AddField("Username:", user.Username, true);
+            Embed.AddField("Muted by:", Context.User.Mention, true);
+            Embed.AddField("Muted on:", date, true);
+            Embed.AddField("Reason:", reason, true);
+            Embed.WithColor(255, 30, 6);
+            Embed.WithThumbnailUrl(user.GetAvatarUrl());
 
-            await Context.Channel.SendMessageAsync((channel) + $"User {user.Mention} was muted.");
-
-
-           // await ((ISocketMessageChannel)client.GetChannel(610592394383196173)).SendMessageAsync($"User {user.Username} was muted." + Context.User.GetAvatarUrl());
-
+            await Context.Channel.SendMessageAsync($":white_check_mark: {user.Username} was muted! Providing info of the mute...", false, Embed.Build());
+            await user.SendMessageAsync($"You were muted with the reason `{reason}`.  Your mute will last as long as staff see fit.  We keep track of when we mute and when the time is up.");
 
         }
 
@@ -249,19 +239,11 @@ namespace GetThisBread.Core.Commands
                 return;
             }
 
-            if (Context.Message.Content.Contains("Thing"))
-            {
-                await Context.Channel.SendMessageAsync("No u");
-            }
-
-            ulong roleID = 610640079823568933;
+            ulong roleID = 693626452687716392;
             var role = Context.Guild.GetRole(roleID);
             await user.RemoveRoleAsync(role);
-            await Context.Channel.SendMessageAsync($":white_check_mark: User {user.Mention} has been unmuted.");
+            await Context.Channel.SendMessageAsync($":white_check_mark: User {user.Mention} has been unmuted!");
 
-            ulong grantRole = 418240237123272704;
-            var roleGrant = Context.Guild.GetRole(grantRole);
-            await user.AddRoleAsync(roleGrant);
 
 
         }
