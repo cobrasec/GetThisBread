@@ -18,7 +18,9 @@ namespace GetThisBread
         private CommandService commands;
         private DiscordSocketClient client;
         private ServiceProvider services;
+
         public CommandService Commands { get => commands; set => commands = value; }
+       
 
         static void Main(string[] args)
             => new Program().Start().GetAwaiter().GetResult();
@@ -49,12 +51,17 @@ namespace GetThisBread
 
             await InstallCommandsAsync();
             await client.SetGameAsync("Use b!help to get started!");
+            await client.SetStatusAsync(UserStatus.AFK);
             await client.LoginAsync(TokenType.Bot, token);
             await client.StartAsync();
+            //Hooking into events
             client.Log += LogAsync;
+            client.UserJoined += AnnounceUserJoined;
+            client.UserLeft += AnnounceUserLeft;
+            client.MessageReceived += HandleCommandAsync;
             await Task.Delay(-1);
 
-
+           
 
 
 
@@ -65,14 +72,10 @@ namespace GetThisBread
 
         public async Task InstallCommandsAsync()
         {
-            // Hook the MessageReceived Event into Command Handler
-            client.MessageReceived += HandleCommandAsync;
             // Discover all of the commands in this assembly and load them.
             await Commands.AddModulesAsync(assembly: Assembly.GetEntryAssembly(),
 
                                         services: null);
-
-
         }
 
         public async Task HandleCommandAsync(SocketMessage messageParam)
@@ -102,18 +105,30 @@ namespace GetThisBread
             if (!result.IsSuccess)
                 await context.Channel.SendMessageAsync(result.ErrorReason);
 
-
-            // Hook into the UserJoined event
-            client.UserJoined += HandleUserJoinedAsync;
-            client.UserLeft += AnnounceUserLeft;
         }
 
 
-        public async Task HandleUserJoinedAsync (SocketGuildUser user) //Welcomes new user
+        public async Task AnnounceUserJoined(SocketGuildUser user)
         {
-            var channel = client.GetChannel(417942280377335810) as SocketTextChannel;
-            await channel.SendMessageAsync($"#PoggersFor{user.Mention}!");
+            
+            Random rand;
+            rand = new Random();
+            string[] randomWelcome;
+            randomWelcome = new string[]
+                {
+                    "Kick back is here and relax my friend, welcome to **The Ticklers**!",
+                    $"All weapons must be left at the front door {user.Mention}!",
+                    $"Hey guys the pizza is here! Oh wait... Its just {user.Mention}.",
+                   $"Well well, look who decied to join in on the fun! User {user.Mention} is here!",
+                   $"#PoggersFor{user.Mention}",
+                   $""
+                };
 
+            int randomWelcomeString = rand.Next(randomWelcome.Length);
+            string randomWelcomeToPost = randomWelcome[randomWelcomeString];
+            var channel = client.GetChannel(417942280377335810) as SocketTextChannel;
+            await channel.SendMessageAsync(randomWelcomeToPost);
+            return;
         }
 
 
@@ -121,6 +136,7 @@ namespace GetThisBread
         {
             var channel = client.GetChannel(489175046317670412) as SocketTextChannel;
             await channel.SendMessageAsync($"Bye {user.Mention}! Hope to see you again soon!");
+            return;
         }
 
         private Task LogAsync(LogMessage logMessage)
@@ -129,8 +145,7 @@ namespace GetThisBread
             return Task.CompletedTask;
         }
 
-
-
+       
 
 
     }

@@ -12,7 +12,7 @@ namespace GetThisBread.Core.Commands
 
      
 {
-    
+
     public class Staff : ModuleBase
 
 
@@ -24,7 +24,7 @@ namespace GetThisBread.Core.Commands
         [RequireUserPermission(Discord.GuildPermission.KickMembers)]
         public async Task UserInfo(SocketGuildUser user = null)
         {
-          
+
 
             EmbedBuilder Embed = new EmbedBuilder();
 
@@ -42,10 +42,13 @@ namespace GetThisBread.Core.Commands
             //Embed for userinfo
 
             var userCreate = user.CreatedAt.LocalDateTime.ToString("dddd, dd MMMM yyyy");
+            //var userJoin = user.JoinedAt.
 
             Embed.AddField("Profile created on:", "\n" + userCreate, true);
             Embed.AddField("User dicriminator:", "\n" + user.Discriminator, false);
             Embed.AddField("Users status:", user.Status, true);
+            Embed.AddField("Users ID:", user.Id, true);
+            //Embed.AddField("User joined on:", userJoin, true);
             Embed.WithColor(17, 0, 255);
             Embed.WithFooter($"Action was performed by {Context.User.Username}.");
             Embed.WithTitle($"{user.Username}'s info has been provided.");
@@ -98,7 +101,7 @@ namespace GetThisBread.Core.Commands
 
             await Context.Channel.SendMessageAsync("Users messages have been purged!");
 
-            
+
 
         }
 
@@ -170,7 +173,7 @@ namespace GetThisBread.Core.Commands
                 return;
             }
 
-            
+
 
             await user.BanAsync();
             await user.SendMessageAsync($"You were banned with the reason:`{reason}`.\n " +
@@ -182,7 +185,7 @@ namespace GetThisBread.Core.Commands
         [Command("Mute"), Summary("Mute a specified user")]
         [Alias("mute", "M")]
         [RequireBotPermission(GuildPermission.ManageRoles)]
-        [RequireUserPermission(GuildPermission.Administrator)]
+        [RequireUserPermission(GuildPermission.KickMembers)]
         public async Task Mute(SocketGuildUser user = null, [Remainder] string reason = "Reason not provided.")
         {
             EmbedBuilder Embed = new EmbedBuilder();
@@ -200,14 +203,14 @@ namespace GetThisBread.Core.Commands
             }
 
 
-            ulong roleID = 693626452687716392;
+            ulong roleID = 692205874504007710;
             var role = Context.Guild.GetRole(roleID);
             await user.AddRoleAsync(role);
 
 
             var date = Context.Message.CreatedAt.ToString("dddd, dd MMMM yyyy");
             //This is the embed for the mute.
-            Embed.WithTitle("User kicked information.");
+            Embed.WithTitle("User muted information.");
             Embed.AddField("Username:", user.Username, true);
             Embed.AddField("Muted by:", Context.User.Mention, true);
             Embed.AddField("Muted on:", date, true);
@@ -224,7 +227,7 @@ namespace GetThisBread.Core.Commands
         [Command("Unmute"), Summary("Unmute a specified user.")]
         [Alias("unmute", "um")]
         [RequireBotPermission(GuildPermission.ManageRoles)]
-        [RequireUserPermission(GuildPermission.Administrator)]
+        [RequireUserPermission(GuildPermission.KickMembers)]
         public async Task UnMute(SocketGuildUser user = null)
         {
             if (user == null)
@@ -239,7 +242,7 @@ namespace GetThisBread.Core.Commands
                 return;
             }
 
-            ulong roleID = 693626452687716392;
+            ulong roleID = 692205874504007710;
             var role = Context.Guild.GetRole(roleID);
             await user.RemoveRoleAsync(role);
             await Context.Channel.SendMessageAsync($":white_check_mark: User {user.Mention} has been unmuted!");
@@ -248,9 +251,46 @@ namespace GetThisBread.Core.Commands
 
         }
 
+        [Command("staffhelp")]
+        [RequireUserPermission(GuildPermission.BanMembers)]
+        public async Task Help()
+        {
+
+            EmbedBuilder Embed = new EmbedBuilder();
+            Embed.WithFooter("xXCobraGamingXx made this");
+            Embed.WithColor(68, 63, 209);
+            Embed.WithTitle("Welcome to GetThisBread!");
+            Embed.WithDescription("Hello and welcome to GetThisBread! I'm the not so smart AI as I still require user input for my commands. So far it looks like you figured this one out so that's good! \n " +
+               "My prefix is `b!` and once my creator figures out configs you can change this. \n" +
+                "To use my commands type `b!` then the command name from the list below.  \n " +
+                "List of my commands: \n" +
+                "\n > **UserInfo** _**(Alias: user)**_ UserInfo will bring up a detailed list of the users account. Creation date, profile picture etc. \n " +
+                "> **Ban** _**(Alias: b)**_ Ban will ban the user, please provide a reason or staff will not have a detailed description of what the user did.  \n " +
+                "> **Kick** _**(Alias: k)**_ Kick will kick the user,  please provide a reason or staff will not have a detailed description of what the user did. \n " +
+                "> **Mute** _**(Alias: m)**_ Mute will mute the user, it gives them a role that allows them to see chats but cannot talk in them. \n " +
+                "> **Unmute** _**(Alias: um)**_ Unmute will unmute a specified user. It will remove the role that is given when muted. \n" +
+                "> **Purge** _**(Alias: p)**_ This command will purge a specified ammount of messages **Use this with care** (You need to use this command in the channel where the user is talking.)\n" +
+                "> **UserPurge** _**(Alias: userp)**_ This command will purge a set amount of user messages. **Use this with care** (You need to use this command in the channel where the user is talking.) \n" +
+                "_**Use these commands in the log channel provided. As it will log the kicked, muted and banned users keep this in mind**_");
 
 
-        
+            await Context.Channel.SendMessageAsync("", false, Embed.Build());
+
+        }
+
+        [Command("Update"), Summary("This command searches for an update for the bot.")]
+        public async Task Update(SocketMessage massgeParam)
+        {
+            var message = massgeParam as SocketUserMessage;
+            if (message.Content.Contains("Bread"))
+            {
+                await Context.Channel.SendMessageAsync("I have been contacted?");
+            }
+            return;
+
+        }
+       
+
     }
    
 

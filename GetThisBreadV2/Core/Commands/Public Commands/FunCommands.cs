@@ -1,9 +1,11 @@
 ﻿using Discord.WebSocket;
 using System;
+using System.Reflection;
 using Discord;
 using System.Threading.Tasks;
 using Discord.Commands;
 using System.Linq;
+using System.IO;
 
 namespace GetThisBread.Core.Commands.Fun
 {
@@ -19,17 +21,17 @@ namespace GetThisBread.Core.Commands.Fun
         public async Task Message(SocketGuildUser user = null)
         {
 
-            var userInfo = Context.User.Username;
-            
+            var userInfo = Context.User.Mention;
+
             Random rand;
             rand = new Random();
             string[] randomImage;
             randomImage = new string[]
                 {
-                    "love1.png", 
-                    "love2.png", 
-                    "love3.png", 
-                    "love4.png", 
+                    "love1.png",
+                    "love2.png",
+                    "love3.png",
+                    "love4.png",
                     "         ",
                     "         ",
                     "         ",
@@ -45,7 +47,7 @@ namespace GetThisBread.Core.Commands.Fun
                 return;
             }
 
-           
+
 
             //Need to make it ping the specified user while also sending the command runners name. Work in progress.
             await Context.Channel.SendMessageAsync($"{userInfo} sends love to {user.Mention}");
@@ -55,55 +57,6 @@ namespace GetThisBread.Core.Commands.Fun
 
 
 
-        }
-
-        [Command("Trailer"), Summary("Awesome trailer!")]
-        [Alias("t", "trailer", "vid")]
-        public async Task Trailer()
-        {
-            await Context.Channel.SendMessageAsync("Server trailer can be found here!");
-            await Context.Channel.SendMessageAsync("https://www.youtube.com/watch?v=pQkjlvPjHpk&feature=youtu.be");
-
-        }
-
-        [Command("Mikigae"), Summary("Miki is p gae")]
-        [Alias("gae", "Miki")]
-        public async Task Mikigae()
-        {
-            await Context.Channel.SendMessageAsync("Miki is p gae tbh");
-        }
-
-        [Command("No u"), Summary("Replys No U'")]
-        [Alias("no u", "no U", "NO u", "nO u")]
-        public async Task NoU()
-        {
-
-         
-                await Context.Channel.SendMessageAsync("No u");
-
-            
-
-        }
-
-        [Command("Furret"), Summary("Furret gang gang")]
-        [Alias("furret", "furretgang")]
-        public async Task Furret()
-        {
-            await Context.Channel.SendMessageAsync("Furret is awesome!");
-            await Context.Channel.SendMessageAsync("http://pm1.narvii.com/6218/8cb12e26ce3cb61112d676d846b83efe4449f388_00.jpg");
-
-
-
-
-        }
-
-
-        [Command("Kevin"), Summary("Dunno why his steam is this way")]
-        [Alias("kevin", "wildo")]
-        public async Task Wildo()
-        {
-            await Context.Channel.SendMessageAsync("Why is Kevin this way?");
-            await Context.Channel.SendMessageAsync("https://cdn.discordapp.com/attachments/360916041850814465/553422660856446976/unknown.png");
         }
 
 
@@ -116,13 +69,13 @@ namespace GetThisBread.Core.Commands.Fun
             string[] Argument;
             Argument = new string[]
                 {
-                    "iPhone or Android?", 
-                    "Game of Thrones or Lord of the Rings?", 
-                    "Windows or Mac?", 
+                    "iPhone or Android?",
+                    "Game of Thrones or Lord of the Rings?",
+                    "Windows or Mac?",
                     "Discord or Skype?",
                     "Pokemon or Digimon?",
                     "Laptop or Desktop?",
-                    "Will add more please bear with me."
+
                 };
             int randomArgument = rand.Next(Argument.Length);
             string randomArgumentToPost = Argument[randomArgument];
@@ -141,16 +94,16 @@ namespace GetThisBread.Core.Commands.Fun
                 {
                     ":8ball: It is certain.",
                     ":8ball: It is decidedly so.",
-                    ":8ball: Without a doubt.", 
-                    ":8ball: Yes, definitely.", 
-                    ":8ball: You may reply on it.", 
-                    ":8ball: As I see it, yes.", 
+                    ":8ball: Without a doubt.",
+                    ":8ball: Yes, definitely.",
+                    ":8ball: You may reply on it.",
+                    ":8ball: As I see it, yes.",
                     ":8ball: Most likely.",
-                    ":8ball: Outlook good.", 
-                    ":8ball: Yes.", 
-                    ":8ball: Signs point to yes.", 
-                    ":8ball: Reply hazy, try again.", 
-                    ":8ball: Ask again later", 
+                    ":8ball: Outlook good.",
+                    ":8ball: Yes.",
+                    ":8ball: Signs point to yes.",
+                    ":8ball: Reply hazy, try again.",
+                    ":8ball: Ask again later",
                     ":8ball: Better not tell you now.",
                     ":8ball: Cannot predict now.",
                     ":8ball: Concentrate and ask again.",
@@ -189,18 +142,85 @@ namespace GetThisBread.Core.Commands.Fun
             await Context.Channel.SendMessageAsync(wouldYouRatherToPost);
 
         }
-        
+
 
         [Command("appreciate"), Summary("We appreciate you!")]
-       
-       public async Task Appreciate()
-       {
-            await Context.Channel.SendMessageAsync("We appreciate you! <:ahhh:678033594693976084>");
-       }
 
-        
+        public async Task Appreciate(SocketGuildUser user = null)
+        {
+            var userInfo = Context.User.Username;
+
+            if (user == null)
+            {
+                await Context.Channel.SendMessageAsync($"**{userInfo}** just wanted to let everyone know that they appreciate the group here! <:gucci:687026528000671770>");
+                return;
+            }
+            if (user.IsBot)
+            {
+                await Context.Channel.SendMessageAsync("I see you wanted to appreciate a bot, sadly they can't feel the love you give them. Unless they were coded to feel love... That'd be weird. Should try a freind or a user you know though!");
+                return;
+            }
+            await Context.Channel.SendMessageAsync($"**{userInfo}** sends their appreciation **{user.Username}**'s way, how sweet! <:gucci:687026528000671770>");
+        }
 
 
+        [Command("help")]
+        public async Task Help()
+        {
+
+            await Context.Channel.TriggerTypingAsync();
+            EmbedBuilder Embed = new EmbedBuilder();
+            Embed.WithColor(66, 215, 245);
+            Embed.WithTitle("GetThisBread (The not so smart AI)");
+            Embed.WithDescription("Haha! I see you have read my rich presence! That is very good as you are a good observer. \n"
+                + "So, as with any other help command you'd expect a list right? Well, I'm different. My owner made me the not so smart AI so I'm going to talk like I'm a person and I hope that's okay. \n"
+                + "So, without further ado let me introduce myself. Hi there my name is GetThisBread or just Bread for short. Most of my commands require an input as I'm still learning. My owner is still adding new commands for you and me to find out so this is gonna be fun. \n"
+                + "Most of my commands are going to be 'hidden' as my owner likes to put it, he never told me why. Anywho on to the commands!");
+            await Context.Channel.SendMessageAsync("", false, Embed.Build());
+
+            await Task.Delay(2000);
+            await Context.Channel.TriggerTypingAsync();
+            await Task.Delay(2000);
+            await Context.Channel.SendMessageAsync("Looking through my storage unit here... It's in here somewhere... AH! Here it is!");
+            await Task.Delay(5000);
+            Embed.WithColor(169, 38, 255);
+            await Context.Channel.TriggerTypingAsync();
+            await Task.Delay(2000);
+            await Context.Channel.SendMessageAsync("Tada! The command almanac. Consult this for whenever you're confused. Sadly I think a few pages are missing so you'll have to figure some out. Actually wait... think I have a missing page here..." +
+                "Looks like it sayssss.. `b!almanac`! Must have got torn during a move, hmm.  Looks like its just a quick access to the almanac so that's neat. *glad I don't have to say my intro everytime*. Anywho, have fun! Gonna go clean this out now...");
+            await Task.Delay(2000);
+            Embed.WithTitle("Command Almanac.");
+            Embed.WithDescription("The command almanac is where all the commands will be stored, use b!almanac to have quick access to this at anytime you need it. ");
+            await Context.Channel.SendMessageAsync("", false, Embed.Build());
+
+
+        }
+
+        [Command("almanac"), Summary("List of commands that can be used as a public user")]
+        public async Task Almanac()
+        {
+           
+            EmbedBuilder embed = new EmbedBuilder();
+            embed.WithColor(169, 38, 255);
+            embed.WithTitle("Command Almanac.");
+            embed.WithDescription("The command almanac is where all the commands will be stored. Use b!almanac to have quick access to this at anytime you need it.");
+            embed.WithThumbnailUrl("https://cdn.discordapp.com/attachments/705301311012470818/705301339177222204/SpellBook01_03.png");
+
+            var field = new EmbedFieldBuilder();
+            field.WithName("**appreciate**");
+            field.WithValue("This command is here so you can appreciate others! I begged and pleaded with my owner to make this for me. So please use it while you can! Sadly won't work on other bots since they aren't coded with love like I am, but users it will work great!");
+            field.WithIsInline(true);
+            var field2 = new EmbedFieldBuilder();
+            field2.WithName("**WYR**");
+            field2.WithValue("WYR stands for Would You Rather. Some of these are pretty fun from what I read on them. They help break the tension in the room and cause some conversaion.");
+            field2.WithIsInline(true);
+            var field3 = new EmbedFieldBuilder();
+            field3.WithName("**Argument**");
+            field3.WithValue("This one is pretty fun! Apparnetly I came built with an argument command. Never knew I had that. Anyway, when you run this, you get an argument prompt with two questions X or Y, and then you argue about it! Though some can lead to high tentions, so please stay civil when running it.");
+            field3.WithIsInline(false);
+            embed.WithFields(field, field2, field3);
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
+        }
 
 
     }
