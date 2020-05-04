@@ -116,12 +116,14 @@ namespace GetThisBread
             string[] randomWelcome;
             randomWelcome = new string[]
                 {
-                    "Kick back is here and relax my friend, welcome to **The Ticklers**!",
+                    "Kick back and relax my friend, welcome to **The Ticklers**!",
                     $"All weapons must be left at the front door {user.Mention}!",
                     $"Hey guys the pizza is here! Oh wait... Its just {user.Mention}.",
                    $"Well well, look who decied to join in on the fun! User {user.Mention} is here!",
                    $"#PoggersFor{user.Mention}",
-                   $""
+                   $"Weclome {user.Mention}! Come inside where its warm and share some stories!",
+                   $"Guess whos back, back again, its {user.Mention}!",
+                   $"Who's this nerd? Welcome though {user.Mention}!"
                 };
 
             int randomWelcomeString = rand.Next(randomWelcome.Length);

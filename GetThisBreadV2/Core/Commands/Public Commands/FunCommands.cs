@@ -14,52 +14,6 @@ namespace GetThisBread.Core.Commands.Fun
     public class Everyone : ModuleBase
     {
 
-
-        [Command("Bread"), Summary("We love bread!")]
-        [Alias("love")]
-
-        public async Task Message(SocketGuildUser user = null)
-        {
-
-            var userInfo = Context.User.Mention;
-
-            Random rand;
-            rand = new Random();
-            string[] randomImage;
-            randomImage = new string[]
-                {
-                    "love1.png",
-                    "love2.png",
-                    "love3.png",
-                    "love4.png",
-                    "         ",
-                    "         ",
-                    "         ",
-                    "         ",
-
-                };
-            int randomLoveImage = rand.Next(randomImage.Length);
-            string loveImageToPost = randomImage[randomLoveImage];
-
-            if (user == null)
-            {
-                await Context.Channel.SendMessageAsync($"{userInfo} just wanted me to send a heart to them awww :heart:");
-                return;
-            }
-
-
-
-            //Need to make it ping the specified user while also sending the command runners name. Work in progress.
-            await Context.Channel.SendMessageAsync($"{userInfo} sends love to {user.Mention}");
-            await Context.Channel.SendFileAsync(loveImageToPost);
-
-
-
-
-
-        }
-
-
         //Please add new aguments to the Argument string if you have any ideas. 
         [Command("Argument"), Summary("Sends a new ice breaker for everyone to yell at each other")]
         public async Task Argument()
