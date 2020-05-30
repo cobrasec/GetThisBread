@@ -78,7 +78,7 @@ namespace GetThisBread.Core.Commands
 
         [Command("UserPurge"), Summary("Purges a specified users messages")]
         [Alias("userp", "userdel")]
-        [RequireBotPermission(GuildPermission.ManageMessages)]
+        [RequireUserPermission(GuildPermission.ManageMessages)]
         public async Task Clear(SocketGuildUser user = null, int amountOfMessagesToDelete = 20)
         {
 

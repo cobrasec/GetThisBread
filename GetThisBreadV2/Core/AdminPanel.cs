@@ -11,17 +11,18 @@ using Sharpdactyl.Models.User;
 
 namespace GetThisBreadV2.Core
 {
-    //Not yet implemented still working on
+    /* 
+      Welcome to the admin panel for whom ever sees this. Everything is pretty much self explanatory and isn't that hard to figure out. 
+      I'll be adding comment blocks to the areas that are important so you always have a note to fall back on.*/
 
     public class AdminPanel : ModuleBase
     {
-
-        
 
         [Command("AdminP")]
         [RequireUserPermission(GuildPermission.BanMembers)]
         public async Task AdminP()
         {
+            //Varibles for the embed.
             var say = "This command allows you to use the command say from console.";
             var restart = "This command allows you to restart the server in the event of a freeze. It will kill the server then start it back up.";
             var whitelistA = "Add a user to the whitelist.";
@@ -43,7 +44,10 @@ namespace GetThisBreadV2.Core
         [RequireUserPermission(GuildPermission.BanMembers)]
         public async Task Announcement([Remainder] string say = null)
         {
-            PClient pClient = new PClient("HOSTNAME REMOVED", "API KEY REMOVED FOR GITHUB PUSH");
+            /*Connecting to the admin panel via API, after PClient the two strings are the things that will tell the bot to connect to the API. Fist one if the panel URL, second is the API key. 
+             * (API KEY IS VERY IMPORTANT DO NOT SHARE. IF I SEE YOU SHARING IT I WILL REMOVE ACCESS) 
+             */
+            PClient pClient = new PClient("https://panel.unboundnetwork.net/", "2lKW7ehzEKJnGXPeAv0bTqU1QmGgRrGrLwtrWBDE9xzXF7ED");
             if (pClient.PostCMDCommand("51df9751", say))
             {
                 await Context.Channel.SendMessageAsync(":white_check_mark: Command sent and executed! Info of the command is provided below.");
@@ -73,33 +77,38 @@ namespace GetThisBreadV2.Core
 
         }
 
+        //Restart the server in the event of a freeze. This will soon be later be removed or locked when 1.15 memory leaks get fixed.
+
         [Command("restart")]
         [RequireUserPermission(GuildPermission.BanMembers)]
         public async Task serverRestart()
         
         {
-            PClient srvClient = new PClient("HOSTNAME REMOVED", "API KEY REMOVED FOR GITHUB PUSH");
+            PClient srvClient = new PClient("https://panel.unboundnetwork.net/", "2lKW7ehzEKJnGXPeAv0bTqU1QmGgRrGrLwtrWBDE9xzXF7ED");
                 if (srvClient.SendSignal("51df9751", PowerSettings.kill))
                 {
                 await Context.Channel.SendMessageAsync("Server was killed!");
                 await Task.Delay(2000);
                 await Context.Channel.SendMessageAsync("Sending restart signal...");
-                await Task.Delay(4000);
+                await Task.Delay(6000);
+                await Context.Channel.SendMessageAsync("Restart signal received!");
                 srvClient.SendSignal("51df9751", PowerSettings.start);
-                await Task.Delay(3000);
+                await Task.Delay(4000);
                 await Context.Channel.SendMessageAsync("Server is starting!");
-                await Task.Delay(8500);
+                await Task.Delay(13000);
                 await Context.Channel.SendMessageAsync(":white_check_mark: Server is up and running. This concludes my report logging.");
                 }
             
              
         }
 
+        //Add a user to the white list.
+
         [Command("whitelistA")]
         [RequireUserPermission(GuildPermission.BanMembers)]
         public async Task whiteListAdd([Remainder] string usrName = null)
         {
-            PClient srvCleint = new PClient("HOSTNAME REMOVED", "API KEY REMOVED FOR GITHUB PUSH");
+            PClient srvCleint = new PClient("https://panel.unboundnetwork.net/", "2lKW7ehzEKJnGXPeAv0bTqU1QmGgRrGrLwtrWBDE9xzXF7ED");
 
             if (usrName == null)
             {
@@ -107,19 +116,22 @@ namespace GetThisBreadV2.Core
                 return;
             }
 
-            if (srvCleint.PostCMDCommand("51df9751", $"whitelsit add {usrName}"))
+            if (srvCleint.PostCMDCommand("51df9751", $"whitelist add {usrName}"))
             {
-                await Context.Channel.SendMessageAsync(":white_check_mark: User was removed from the whitelist!");
+                await Context.Channel.SendMessageAsync(":white_check_mark: User was added to the whitelist!");
                 return;
             }
 
             
         }
+
+        //Remove a user from the whitelist.
+
         [Command("whitelistR")]
         [RequireUserPermission(GuildPermission.BanMembers)]
         public async Task whiteListRemove([Remainder] string usrName = null)
         {
-            PClient srvCleint = new PClient("HOSTNAME REMOVED", "API KEY REMOVED FOR GITHUB PUSH");
+            PClient srvCleint = new PClient("https://panel.unboundnetwork.net/", "2lKW7ehzEKJnGXPeAv0bTqU1QmGgRrGrLwtrWBDE9xzXF7ED");
 
             if (usrName == null)
             {
@@ -127,7 +139,7 @@ namespace GetThisBreadV2.Core
                 return;
             }
 
-            if (srvCleint.PostCMDCommand("51df9751", $"whitelsit remove {usrName}"))
+            if (srvCleint.PostCMDCommand("51df9751", $"whitelist remove {usrName}"))
             {
                 await Context.Channel.SendMessageAsync(":white_check_mark: User was removed from the whitelist!");
                 return;
@@ -136,13 +148,14 @@ namespace GetThisBreadV2.Core
 
         }
 
+        //Get the usage of the server.
 
         [Command("Usage")]
         [RequireUserPermission(GuildPermission.BanMembers)]
         public async Task usageList()
         {
             
-            PClient srvCleint = new PClient("HOSTNAME REMOVED", "API KEY REMOVED FOR GITHUB PUSH");
+            PClient srvCleint = new PClient("https://panel.unboundnetwork.net/", "2lKW7ehzEKJnGXPeAv0bTqU1QmGgRrGrLwtrWBDE9xzXF7ED");
             ServerDatum srv = srvCleint.GetServerById("51df9751");
             ServerUtil srvU = srvCleint.GetServerUsage(srv.Attributes.Identifier);
 
@@ -162,5 +175,9 @@ namespace GetThisBreadV2.Core
             embed.AddField("Current Disk usage", disk, true);
             await Context.Channel.SendMessageAsync("", false, embed.Build());
         }
+
+
+        
+
     } 
 }

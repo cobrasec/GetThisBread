@@ -41,10 +41,10 @@ namespace GetThisBread
             });
 
 
+            //Main bot Token
+            // var token = File.ReadAllText("Token.txt");
 
-            var token = File.ReadAllText("Token.txt");
-
-
+            var token = "NzEyMTIyMjIxMTQ5MDI4Mzcy.XsM9pw.G7d36UIa6KaKMPrMZRWol4LMrHY";
 
             services = new ServiceCollection()
                 .BuildServiceProvider();
@@ -61,11 +61,6 @@ namespace GetThisBread
             client.MessageReceived += HandleCommandAsync;
             await Task.Delay(-1);
 
-           
-
-
-
-
 
         }
 
@@ -80,26 +75,17 @@ namespace GetThisBread
 
         public async Task HandleCommandAsync(SocketMessage messageParam)
         {
-            // Don't process the command if it was a System Message
 
             var message = messageParam as SocketUserMessage;
             if (message == null) return;
 
-            // Create a number to track where the prefix ends and the command begins
-
             int argPos = 0;
 
-            // Determine if the message is a command, based on if it starts with '!' or a mention prefix
-
-
-            if (!(message.HasStringPrefix("b!", ref argPos) || message.HasMentionPrefix(client.CurrentUser, ref argPos)) ||
+            //MAKE SURE TO CHANGE d! TO b! BEFORE MAIN BOT RELEASE
+            if (!(message.HasStringPrefix("d!", ref argPos) || message.HasMentionPrefix(client.CurrentUser, ref argPos)) ||
                 message.Author.IsBot) return;
 
-            // Command Context
-
             var context = new CommandContext(client, message);
-
-            // Execute the command.
 
             var result = await Commands.ExecuteAsync(context: context, argPos: argPos, services: null);
             if (!result.IsSuccess)

@@ -10,6 +10,12 @@ using System.IO;
 namespace GetThisBread.Core.Commands.Fun
 {
 
+    /* 
+      These are the fun commands that every user can access, please add anything you want that seems like a good time.
+      Please don't go adding doo doo commands that give a user a little too much power. Like spam @ing a user, would not be a fun time.
+    */
+
+
 
     public class Everyone : ModuleBase
     {
@@ -117,7 +123,7 @@ namespace GetThisBread.Core.Commands.Fun
             await Context.Channel.SendMessageAsync($"**{userInfo}** sends their appreciation **{user.Username}**'s way, how sweet! <:gucci:687026528000671770>");
         }
 
-
+        //Wouldn't add anything else to this. Already big enough. 
         [Command("help")]
         public async Task Help()
         {
@@ -150,6 +156,7 @@ namespace GetThisBread.Core.Commands.Fun
 
         }
 
+        //When you push a new update, update the almanac with a new command. Make sure to add it as a field
         [Command("almanac"), Summary("List of commands that can be used as a public user")]
         public async Task Almanac()
         {
