@@ -80,7 +80,7 @@ namespace GetThisBread
             int argPos = 0;
 
             //MAKE SURE TO CHANGE d! TO b! BEFORE MAIN BOT RELEASE
-            if (!(message.HasStringPrefix("d!", ref argPos) || message.HasMentionPrefix(client.CurrentUser, ref argPos)) ||
+            if (!(message.HasStringPrefix("b!", ref argPos) || message.HasMentionPrefix(client.CurrentUser, ref argPos)) ||
                 message.Author.IsBot) return;
 
             var context = new CommandContext(client, message);
