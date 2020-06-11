@@ -5,11 +5,9 @@ using Discord;
 using Discord.WebSocket;
 using Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
-using System.IO;
 
 using GetThisBread.Core.Commands;
-
-
+using System.IO;
 
 namespace GetThisBread
 {
@@ -30,21 +28,21 @@ namespace GetThisBread
 
             client = new DiscordSocketClient(new DiscordSocketConfig
             {
-                LogLevel = LogSeverity.Debug
+                LogLevel = LogSeverity.Info
 
             });
 
 
             Commands = new CommandService(new CommandServiceConfig
             {
-                LogLevel = LogSeverity.Debug
+                LogLevel = LogSeverity.Info
             });
 
 
             //Main bot Token
-            // var token = File.ReadAllText("Token.txt");
+            var token = File.ReadAllText("Token.txt");
 
-            var token = "NzEyMTIyMjIxMTQ5MDI4Mzcy.XsM9pw.G7d36UIa6KaKMPrMZRWol4LMrHY";
+           
 
             services = new ServiceCollection()
                 .BuildServiceProvider();
@@ -135,12 +133,13 @@ namespace GetThisBread
 
        
 
-
     }
 
-
-
 }
+
+
+
+
 
 
 

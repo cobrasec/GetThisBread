@@ -230,22 +230,31 @@ namespace GetThisBread.Core.Commands
         [RequireUserPermission(GuildPermission.KickMembers)]
         public async Task UnMute(SocketGuildUser user = null)
         {
-            if (user == null)
+            if (user.GuildPermissions.KickMembers)
             {
-                await Context.Channel.SendMessageAsync($":x:{user.Mention} You didn't specify a user to unmute! Please @ them or type in their name.");
+                if (user == null)
+                {
+                    await Context.Channel.SendMessageAsync($":x:{user.Mention} You didn't specify a user to unmute! Please @ them or type in their name.");
+                    return;
+                }
+
+                if (user.IsBot)
+                {
+                    await Context.Channel.SendMessageAsync(":x: Sory but bots can't be affected by both mute and unmute.");
+                    return;
+                }
+                ulong roleID = 692205874504007710;
+                var role = Context.Guild.GetRole(roleID);
+                await user.RemoveRoleAsync(role);
+                await Context.Channel.SendMessageAsync($":white_check_mark: User {user.Mention} has been unmuted!");
                 return;
             }
-
-            if (user.IsBot)
+            else
             {
-                await Context.Channel.SendMessageAsync(":x: Sory but bots can't be affected by both mute and unmute.");
+                await Context.Channel.SendMessageAsync("Sorry but you don't carry the right key card for this command.");
                 return;
             }
-
-            ulong roleID = 692205874504007710;
-            var role = Context.Guild.GetRole(roleID);
-            await user.RemoveRoleAsync(role);
-            await Context.Channel.SendMessageAsync($":white_check_mark: User {user.Mention} has been unmuted!");
+            
 
 
 
@@ -278,15 +287,13 @@ namespace GetThisBread.Core.Commands
 
         }
 
+
+        //Doesn't do anything, still working on.
         [Command("Update"), Summary("This command searches for an update for the bot.")]
-        public async Task Update(SocketMessage massgeParam)
+        public async Task Update()
         {
-            var message = massgeParam as SocketUserMessage;
-            if (message.Content.Contains("Bread"))
-            {
-                await Context.Channel.SendMessageAsync("I have been contacted?");
-            }
-            return;
+            
+
 
         }
        

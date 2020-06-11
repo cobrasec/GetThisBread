@@ -169,20 +169,42 @@ namespace GetThisBread.Core.Commands.Fun
 
             var field = new EmbedFieldBuilder();
             field.WithName("**appreciate**");
-            field.WithValue("This command is here so you can appreciate others! I begged and pleaded with my owner to make this for me. So please use it while you can! Sadly won't work on other bots since they aren't coded with love like I am, but users it will work great!");
+            field.WithValue("> This command is here so you can appreciate others! I begged and pleaded with my owner to make this for me. So please use it while you can! Sadly won't work on other bots since they aren't coded with love like I am, but users it will work great!");
             field.WithIsInline(true);
             var field2 = new EmbedFieldBuilder();
             field2.WithName("**WYR**");
-            field2.WithValue("WYR stands for Would You Rather. Some of these are pretty fun from what I read on them. They help break the tension in the room and cause some conversaion.");
+            field2.WithValue("> WYR stands for Would You Rather. Some of these are pretty fun from what I read on them. They help break the tension in the room and cause some conversaion.");
             field2.WithIsInline(true);
             var field3 = new EmbedFieldBuilder();
             field3.WithName("**Argument**");
-            field3.WithValue("This one is pretty fun! Apparnetly I came built with an argument command. Never knew I had that. Anyway, when you run this, you get an argument prompt with two questions X or Y, and then you argue about it! Though some can lead to high tentions, so please stay civil when running it.");
+            field3.WithValue("> This one is pretty fun! Apparnetly I came built with an argument command. Never knew I had that. Anyway, when you run this, you get an argument prompt with two questions X or Y, and then you argue about it! Though some can lead to high tentions, so please stay civil when running it.");
             field3.WithIsInline(false);
             embed.WithFields(field, field2, field3);
             await Context.Channel.SendMessageAsync("", false, embed.Build());
+
         }
 
+
+        //This functions exactly like the appreciation command. Really easy.
+        [Command("hug"), Summary("People really wanted this so why not add it. Lets you send a virtual hug to a user.")]
+
+        public async Task Hug(SocketGuildUser user)
+        {
+
+            var userInfo = Context.User.Username;
+
+            if (user == null)
+            {
+                await Context.Channel.SendMessageAsync($"**{userInfo}** just sent the largest group hug I've ever seen! Let it be known they have long arms!");
+                return;
+            }
+            if (user.IsBot)
+            {
+                await Context.Channel.SendMessageAsync("Sadly I can't hug machines! Would be nice though.");
+                return;
+            }
+            await Context.Channel.SendMessageAsync($"**{userInfo}** sent a hug to **{user.Username}**! Looks like we got something special in here :eyes:");
+        }
 
     }
 

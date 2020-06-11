@@ -81,23 +81,35 @@ namespace GetThisBreadV2.Core
 
         [Command("restart")]
         [RequireUserPermission(GuildPermission.BanMembers)]
-        public async Task serverRestart()
+        public async Task serverRestart(SocketGuildUser user)
         
         {
-            PClient srvClient = new PClient("https://panel.unboundnetwork.net/", "2lKW7ehzEKJnGXPeAv0bTqU1QmGgRrGrLwtrWBDE9xzXF7ED");
+
+            if (user.GuildPermissions.BanMembers)
+            {
+                PClient srvClient = new PClient("https://panel.unboundnetwork.net/", "2lKW7ehzEKJnGXPeAv0bTqU1QmGgRrGrLwtrWBDE9xzXF7ED");
                 if (srvClient.SendSignal("51df9751", PowerSettings.kill))
                 {
-                await Context.Channel.SendMessageAsync("Server was killed!");
-                await Task.Delay(2000);
-                await Context.Channel.SendMessageAsync("Sending restart signal...");
-                await Task.Delay(6000);
-                await Context.Channel.SendMessageAsync("Restart signal received!");
-                srvClient.SendSignal("51df9751", PowerSettings.start);
-                await Task.Delay(4000);
-                await Context.Channel.SendMessageAsync("Server is starting!");
-                await Task.Delay(13000);
-                await Context.Channel.SendMessageAsync(":white_check_mark: Server is up and running. This concludes my report logging.");
+                    await Context.Channel.SendMessageAsync("Server was killed!");
+                    await Task.Delay(2000);
+                    await Context.Channel.SendMessageAsync("Sending restart signal...");
+                    await Task.Delay(6000);
+                    await Context.Channel.SendMessageAsync("Restart signal received!");
+                    srvClient.SendSignal("51df9751", PowerSettings.start);
+                    await Task.Delay(4000);
+                    await Context.Channel.SendMessageAsync("Server is starting!");
+                    await Task.Delay(13000);
+                    await Context.Channel.SendMessageAsync(":white_check_mark: Server is up and running. This concludes my report logging.");
+                    return;
                 }
+
+
+            }
+            else
+            {
+                await Context.Channel.SendMessageAsync("You do not have the permission to run this command! @ a mod for help!");
+                return;
+            }
             
              
         }

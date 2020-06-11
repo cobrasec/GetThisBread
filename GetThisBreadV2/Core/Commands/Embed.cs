@@ -21,8 +21,8 @@ namespace GetThisBread.Core.Commands.Embed
             Embed.WithColor(68, 63, 209);
             Embed.WithFooter("Thank you for enjoying my bot!", Context.User.GetAvatarUrl());
             Embed.WithDescription("Hello and welcome to GetThisBread! The everything bot! \n " +
-                "Bot prefix is `Bread` \n" +
-                 "To use commands type `Bread` then the command name. \n " +
+                "Bot prefix is `b!` \n" +
+                 "To use commands type `b!` then the command name. \n " +
                  "List of commands \n" +
                  "```Admin: \n Purge \n UserPurge \n Userinfo```");
 
