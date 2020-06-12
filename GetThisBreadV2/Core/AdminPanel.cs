@@ -44,11 +44,11 @@ namespace GetThisBreadV2.Core
         [RequireUserPermission(GuildPermission.BanMembers)]
         public async Task Announcement([Remainder] string say = null)
         {
-            /*Connecting to the admin panel via API, after PClient the two strings are the things that will tell the bot to connect to the API. Fist one if the panel URL, second is the API key. 
+            /*Connecting to the admin panel via API, after PClient the two strings are the things that will tell the bot to connect to the API. First one is the panel URL, second is the API key. 
              * (API KEY IS VERY IMPORTANT DO NOT SHARE. IF I SEE YOU SHARING IT I WILL REMOVE ACCESS) 
              */
             PClient pClient = new PClient("https://panel.unboundnetwork.net/", "2lKW7ehzEKJnGXPeAv0bTqU1QmGgRrGrLwtrWBDE9xzXF7ED");
-            if (pClient.PostCMDCommand("51df9751", say))
+            if (pClient.PostCMDCommand("51df9751", $"say {say}"))
             {
                 await Context.Channel.SendMessageAsync(":white_check_mark: Command sent and executed! Info of the command is provided below.");
                 await Task.Delay(2000);
@@ -77,41 +77,33 @@ namespace GetThisBreadV2.Core
 
         }
 
-        //Restart the server in the event of a freeze. This will soon be later be removed or locked when 1.15 memory leaks get fixed.
+        //Restart the server in the event of a freeze. This will soon be later be removed or locked when memory leaks get fixed.
 
         [Command("restart")]
         [RequireUserPermission(GuildPermission.BanMembers)]
-        public async Task serverRestart(SocketGuildUser user)
+        public async Task serverRestart()
         
         {
-
-            if (user.GuildPermissions.BanMembers)
+         
+            PClient srvClient = new PClient("https://panel.unboundnetwork.net/", "2lKW7ehzEKJnGXPeAv0bTqU1QmGgRrGrLwtrWBDE9xzXF7ED");
+            if (srvClient.SendSignal("51df9751", PowerSettings.kill))
             {
-                PClient srvClient = new PClient("https://panel.unboundnetwork.net/", "2lKW7ehzEKJnGXPeAv0bTqU1QmGgRrGrLwtrWBDE9xzXF7ED");
-                if (srvClient.SendSignal("51df9751", PowerSettings.kill))
-                {
-                    await Context.Channel.SendMessageAsync("Server was killed!");
-                    await Task.Delay(2000);
-                    await Context.Channel.SendMessageAsync("Sending restart signal...");
-                    await Task.Delay(6000);
-                    await Context.Channel.SendMessageAsync("Restart signal received!");
-                    srvClient.SendSignal("51df9751", PowerSettings.start);
-                    await Task.Delay(4000);
-                    await Context.Channel.SendMessageAsync("Server is starting!");
-                    await Task.Delay(13000);
-                    await Context.Channel.SendMessageAsync(":white_check_mark: Server is up and running. This concludes my report logging.");
-                    return;
-                }
-
-
-            }
-            else
-            {
-                await Context.Channel.SendMessageAsync("You do not have the permission to run this command! @ a mod for help!");
+                await Context.Channel.SendMessageAsync("Server was killed!");
+                await Task.Delay(2000);
+                await Context.Channel.SendMessageAsync("Sending restart signal...");
+                await Task.Delay(6000);
+                await Context.Channel.SendMessageAsync("Restart signal received!");
+                srvClient.SendSignal("51df9751", PowerSettings.start);
+                await Task.Delay(4000);
+                //Remove this once spigot updates.
+                await Context.Channel.SendMessageAsync("**Server will take an additional 20 seconds on start up due to Spigot wanting to update**");
+                await Context.Channel.SendMessageAsync("Server is starting!");
+                await Task.Delay(13000);
+                await Context.Channel.SendMessageAsync(":white_check_mark: Server is up and running. This concludes my report logging.");
                 return;
             }
-            
-             
+
+
         }
 
         //Add a user to the white list.
