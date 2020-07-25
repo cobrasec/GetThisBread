@@ -89,16 +89,16 @@ namespace GetThisBreadV2.Core
             if (srvClient.SendSignal("51df9751", PowerSettings.kill))
             {
                 await Context.Channel.SendMessageAsync("Server was killed!");
-                await Task.Delay(2000);
+                await Task.Delay(TimeSpan.FromSeconds(2));
                 await Context.Channel.SendMessageAsync("Sending restart signal...");
-                await Task.Delay(6000);
+                await Task.Delay(TimeSpan.FromSeconds(6));
                 await Context.Channel.SendMessageAsync("Restart signal received!");
                 srvClient.SendSignal("51df9751", PowerSettings.start);
-                await Task.Delay(4000);
+                await Task.Delay(TimeSpan.FromSeconds(4));
                 //Remove this once spigot updates.
                 await Context.Channel.SendMessageAsync("**Server will take an additional 20 seconds on start up due to Spigot wanting to update**");
                 await Context.Channel.SendMessageAsync("Server is starting!");
-                await Task.Delay(13000);
+                await Task.Delay(TimeSpan.FromSeconds(13));
                 await Context.Channel.SendMessageAsync(":white_check_mark: Server is up and running. This concludes my report logging.");
                 return;
             }

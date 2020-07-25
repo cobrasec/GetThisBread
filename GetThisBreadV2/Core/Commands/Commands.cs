@@ -292,8 +292,12 @@ namespace GetThisBread.Core.Commands
         [Command("Update"), Summary("This command searches for an update for the bot.")]
         public async Task Update()
         {
-            
+            EmbedBuilder em = new EmbedBuilder();
+            em.AddField("test...", true);
+            em.AddField("Test edit 2...", true);
+            var send = await Context.Channel.SendMessageAsync("", false, em.Build());
 
+            await send.ModifyAsync(x => x.Content = $"");
 
         }
        

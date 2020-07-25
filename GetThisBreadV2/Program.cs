@@ -40,8 +40,8 @@ namespace GetThisBread
 
 
             //Main bot Token
-            var token = File.ReadAllText("Token.txt");
-
+            //var token = File.ReadAllText("Token.txt");
+            var token ="NzEyMTIyMjIxMTQ5MDI4Mzcy.XxjxUQ.O15vEvXXwhqLK5njWUPBtrFe0EQ"; 
            
 
             services = new ServiceCollection()
