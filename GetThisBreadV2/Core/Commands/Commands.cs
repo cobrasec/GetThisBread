@@ -12,12 +12,12 @@ namespace GetThisBread.Core.Commands
 
      
 {
-
+   
     public class Staff : ModuleBase
-
 
     {
 
+        private DiscordSocketClient client;
 
         [Command("userinfo"), Summary("Returns the users profile info")]
         [Alias("user")]
@@ -300,7 +300,19 @@ namespace GetThisBread.Core.Commands
             await send.ModifyAsync(x => x.Content = $"");
 
         }
-       
+
+        [Command("play")]
+        public async Task Play([Remainder] string play = "Hi this is a test")
+        {
+            client = new DiscordSocketClient();
+
+           await client.SetGameAsync(play);
+          
+
+
+        }
+
+
 
     }
    

@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 using GetThisBread.Core.Commands;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Sockets;
 
 namespace GetThisBread
 {
@@ -18,7 +20,7 @@ namespace GetThisBread
         private ServiceProvider services;
 
         public CommandService Commands { get => commands; set => commands = value; }
-       
+
 
         static void Main(string[] args)
             => new Program().Start().GetAwaiter().GetResult();
@@ -28,7 +30,7 @@ namespace GetThisBread
 
             client = new DiscordSocketClient(new DiscordSocketConfig
             {
-                LogLevel = LogSeverity.Info
+                LogLevel = LogSeverity.Debug
 
             });
 
@@ -41,15 +43,16 @@ namespace GetThisBread
 
             //Main bot Token
             //var token = File.ReadAllText("Token.txt");
-            var token ="NzEyMTIyMjIxMTQ5MDI4Mzcy.XxjxUQ.O15vEvXXwhqLK5njWUPBtrFe0EQ"; 
-           
+            var token = "NzEyMTIyMjIxMTQ5MDI4Mzcy.XxjxUQ.O15vEvXXwhqLK5njWUPBtrFe0EQ";
+
 
             services = new ServiceCollection()
                 .BuildServiceProvider();
 
             await InstallCommandsAsync();
-            await client.SetGameAsync("Use b!help to get started!");
-            await client.SetStatusAsync(UserStatus.AFK);
+            //await client.SetGameAsync("Use b!help to get started!");
+            //await client.SetStatusAsync(UserStatus.AFK);
+            // await client.SetGameAsync("Feelin' chill", "https://www.youtube.com/watch?v=wAPCSnAhhC8", ActivityType.Watching);
             await client.LoginAsync(TokenType.Bot, token);
             await client.StartAsync();
             //Hooking into events
@@ -57,6 +60,7 @@ namespace GetThisBread
             client.UserJoined += AnnounceUserJoined;
             client.UserLeft += AnnounceUserLeft;
             client.MessageReceived += HandleCommandAsync;
+            client.MessageReceived += UwUAlarmAsync;
             await Task.Delay(-1);
 
 
@@ -131,7 +135,29 @@ namespace GetThisBread
             return Task.CompletedTask;
         }
 
-       
+        public async Task UwUAlarmAsync(SocketMessage message)
+        {
+
+            string[] theGreatFilter;
+            theGreatFilter = new string[]
+                {
+                "owo",
+                "uwu",
+                "oWo",
+                "OwO",
+                "ÒwÓ",
+
+                };
+
+            if (message.Author.IsBot) { return; }
+
+            if (message.Content.Contains($"{theGreatFilter}"))
+            {
+                return;
+            }
+            await message.Channel.SendMessageAsync($":rotating_light: You have violtaed the uwu law! Remove your uwu at once! :rotating_light:");
+            return;
+        }
 
     }
 
