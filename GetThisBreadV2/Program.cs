@@ -5,11 +5,9 @@ using Discord;
 using Discord.WebSocket;
 using Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
-
-using GetThisBread.Core.Commands;
-using System.IO;
-using System.Security.Cryptography.X509Certificates;
-using System.Net.Sockets;
+using System.Linq;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace GetThisBread
 {
@@ -43,6 +41,8 @@ namespace GetThisBread
 
             //Main bot Token
             //var token = File.ReadAllText("Token.txt");
+
+            //Dev bot token
             var token = "NzEyMTIyMjIxMTQ5MDI4Mzcy.XxjxUQ.O15vEvXXwhqLK5njWUPBtrFe0EQ";
 
 
@@ -138,25 +138,16 @@ namespace GetThisBread
         public async Task UwUAlarmAsync(SocketMessage message)
         {
 
-            string[] theGreatFilter;
-            theGreatFilter = new string[]
-                {
-                "owo",
-                "uwu",
-                "oWo",
-                "OwO",
-                "ÒwÓ",
-
-                };
-
             if (message.Author.IsBot) { return; }
 
-            if (message.Content.Contains($"{theGreatFilter}"))
+            
+            if (message.Content.Contains("owo") || message.Content.Contains("uwu") || message.Content.Contains("OwO") || message.Content.Contains("UwU") || message.Content.Contains("ÒwÓ"))
+
             {
+                await message.Channel.SendMessageAsync($":rotating_light: You have violtaed the uwu law! Remove your uwu at once! :rotating_light:");
                 return;
             }
-            await message.Channel.SendMessageAsync($":rotating_light: You have violtaed the uwu law! Remove your uwu at once! :rotating_light:");
-            return;
+            
         }
 
     }
