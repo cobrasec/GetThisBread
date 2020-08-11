@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Sharpdactyl.Models.Client;
 using Sharpdactyl;
-using Sharpdactyl.Models.Node;
-using Sharpdactyl.Models.User;
 
 namespace GetThisBreadV2.Core
 {

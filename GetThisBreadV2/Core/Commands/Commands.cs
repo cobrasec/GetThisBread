@@ -110,6 +110,8 @@ namespace GetThisBread.Core.Commands
         [RequireUserPermission(GuildPermission.KickMembers)]
         public async Task Kick(SocketGuildUser user = null, [Remainder] string reason = "Reason not provided.")
         {
+          
+
 
             EmbedBuilder Embed = new EmbedBuilder();
             if (user == null)
@@ -130,6 +132,7 @@ namespace GetThisBread.Core.Commands
                 return;
             }
 
+
             //If the user was mentioned and isn't a bot this will execute.
 
             await user.KickAsync();
@@ -149,8 +152,7 @@ namespace GetThisBread.Core.Commands
             await Context.Channel.SendMessageAsync($"{user.Username} was kicked! Providing info of the kick...", false, Embed.Build());
 
 
-            await user.SendMessageAsync($"You were kicked with the reason:`{reason}`. You are allowed to join back, just know there will be repurcussions due to your behavior. \n " +
-                $"Be on good behavior and you will not recieve a kick.  Just know that next time you break a rule or bad mouth someone you will be muted.  If you enter DMs you will be banned.");
+            await user.SendMessageAsync($"You were kicked with the reason:`{reason}`. You are allowed to join back, just know there will be repurcussions due to your behavior.");
 
         }
 

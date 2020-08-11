@@ -179,6 +179,8 @@ namespace GetThisBread.Core.Commands.Fun
             field3.WithName("**Argument**");
             field3.WithValue("> This one is pretty fun! Apparnetly I came built with an argument command. Never knew I had that. Anyway, when you run this, you get an argument prompt with two questions X or Y, and then you argue about it! Though some can lead to high tentions, so please stay civil when running it.");
             field3.WithIsInline(false);
+
+            //Add the fields to the embed
             embed.WithFields(field, field2, field3);
             await Context.Channel.SendMessageAsync("", false, embed.Build());
 

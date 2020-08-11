@@ -5,9 +5,6 @@ using Discord;
 using Discord.WebSocket;
 using Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace GetThisBread
 {
@@ -52,7 +49,7 @@ namespace GetThisBread
             await InstallCommandsAsync();
             //await client.SetGameAsync("Use b!help to get started!");
             //await client.SetStatusAsync(UserStatus.AFK);
-            // await client.SetGameAsync("Feelin' chill", "https://www.youtube.com/watch?v=wAPCSnAhhC8", ActivityType.Watching);
+            await client.SetGameAsync("SPACEX BABY", "https://www.youtube.com/watch?v=tSJIQftoxeU", ActivityType.Watching);
             await client.LoginAsync(TokenType.Bot, token);
             await client.StartAsync();
             //Hooking into events
@@ -98,7 +95,7 @@ namespace GetThisBread
 
         public async Task AnnounceUserJoined(SocketGuildUser user)
         {
-            
+
             Random rand;
             rand = new Random();
             string[] randomWelcome;
@@ -135,33 +132,31 @@ namespace GetThisBread
             return Task.CompletedTask;
         }
 
+
+
+
         public async Task UwUAlarmAsync(SocketMessage message)
         {
 
             if (message.Author.IsBot) { return; }
 
-            
-            if (message.Content.Contains("owo") || message.Content.Contains("uwu") || message.Content.Contains("OwO") || message.Content.Contains("UwU") || message.Content.Contains("ÒwÓ"))
+            if (message.Content.Contains("owo") || message.Content.Contains("uwu") || message.Content.Contains("OwO")
+                || message.Content.Contains("UwU") || message.Content.Contains("ÒwÓ") || message.Content.Contains("OvO") || message.Content.Contains("oWo")
+                || message.Content.Contains("Uwu") || message.Content.Contains(" úwú ") || message.Content.Contains("u w u"))
 
             {
+                await message.DeleteAsync();
+
                 await message.Channel.SendMessageAsync($":rotating_light: You have violtaed the uwu law! Remove your uwu at once! :rotating_light:");
                 return;
             }
-            
+
         }
+
+
+
+
 
     }
 
-}
-
-
-
-
-
-
-
-
-
-
-
-
+} //The reason this line updated was because I deleted the bracket on accident...
