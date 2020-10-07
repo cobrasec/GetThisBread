@@ -208,6 +208,48 @@ namespace GetThisBread.Core.Commands.Fun
             await Context.Channel.SendMessageAsync($"**{userInfo}** sent a hug to **{user.Username}**! Looks like we got something special in here :eyes:");
         }
 
+        [Command("imposter"), Summary("Find out if the person is an imposter.")]
+        public async Task Imposter(SocketGuildUser user = null)
+        {
+
+            var userInfo = Context.User.Username;
+            if (user == null)
+            {
+                await Context.Channel.SendMessageAsync(":x: ***EMERGANCY MEETING*** :x:");
+                await Task.Delay(TimeSpan.FromSeconds(2));
+                await Context.Channel.SendMessageAsync($"A meeting was called by {userInfo}, but called it just because they wanted to say hi... Vote them out for wasting time smh");
+                { return; }
+            }
+
+            if (user.IsBot)
+            {
+                await Context.Channel.SendMessageAsync(":x: ***EMERGANCY MEETING*** :x:");
+                await Task.Delay(TimeSpan.FromSeconds(2));
+                await Context.Channel.SendMessageAsync("Bots can be sus at times no lie... Though my scanner is telling me this bot is not sus");
+                { return; }
+            }
+
+            await Context.Channel.SendMessageAsync(":x: ***EMERGANCY MEETING*** :x:");
+            await Task.Delay(TimeSpan.FromSeconds(2));
+            await Context.Channel.SendMessageAsync("You are going to get voted off anyway ways but what is your defence? You got 15 seconds, good luck!");
+            await Task.Delay(TimeSpan.FromSeconds(15));
+            await Context.Channel.SendMessageAsync(
+            "  . 　　　。　　　　•　 　ﾟ　　。 　　.   \n" +
+            "                                       \n"+
+            "  .　　　 　　.　　　　　。　　 。　. 　  \n" +
+            "                                       \n"+
+            ".　　 。　　　　　 ඞ 。 . 　　 • 　　　•\n" +
+            "                                      \n"+
+           $" ﾟ　　 {user.Username} has been ejected.　 。　. \n" +
+            "                                       \n"+
+            "'　　　                    　       　  　。 \n" +
+            "                                       \n"+
+            "　ﾟ　 　　.　　　.     ,　　　　.　    .      \n");
+                  
+
+        }
+
+
     }
 
 

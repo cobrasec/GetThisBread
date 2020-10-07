@@ -5,6 +5,7 @@ using Discord;
 using Discord.WebSocket;
 using Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
+using System.IO;
 
 namespace GetThisBread
 {
@@ -37,7 +38,7 @@ namespace GetThisBread
 
 
             //Main bot Token
-            //var token = File.ReadAllText("Token.txt");
+            // var token = File.ReadAllText("Token.txt");
 
             //Dev bot token
             var token = "NzEyMTIyMjIxMTQ5MDI4Mzcy.XxjxUQ.O15vEvXXwhqLK5njWUPBtrFe0EQ";
@@ -147,7 +148,7 @@ namespace GetThisBread
             {
                 await message.DeleteAsync();
 
-                await message.Channel.SendMessageAsync($":rotating_light: You have violtaed the uwu law! Remove your uwu at once! :rotating_light:");
+                await message.Channel.SendMessageAsync($":rotating_light: You have violtaed the uwu law! We (Me), have removed your uwu becuase it violates are brain waves of thinking. When we see one we just start crying, like full on bawling break down and we don't like that. So as of now, we delete them. ~Toodles :rotating_light:");
                 return;
             }
 
