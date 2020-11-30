@@ -38,10 +38,10 @@ namespace GetThisBread
 
 
             //Main bot Token
-            // var token = File.ReadAllText("Token.txt");
+             var token = File.ReadAllText("Token.txt");
 
             //Dev bot token
-            var token = "NzEyMTIyMjIxMTQ5MDI4Mzcy.XxjxUQ.O15vEvXXwhqLK5njWUPBtrFe0EQ";
+             //var token = "NzEyMTIyMjIxMTQ5MDI4Mzcy.XxjxUQ.O15vEvXXwhqLK5njWUPBtrFe0EQ";
 
 
             services = new ServiceCollection()
@@ -49,16 +49,17 @@ namespace GetThisBread
 
             await InstallCommandsAsync();
             //await client.SetGameAsync("Use b!help to get started!");
-            //await client.SetStatusAsync(UserStatus.AFK);
-            await client.SetGameAsync("SPACEX BABY", "https://www.youtube.com/watch?v=tSJIQftoxeU", ActivityType.Watching);
+           // await client.SetStatusAsync(UserStatus.AFK);
+            await client.SetGameAsync("I was updated but I won't say what changed");
             await client.LoginAsync(TokenType.Bot, token);
             await client.StartAsync();
             //Hooking into events
             client.Log += LogAsync;
             client.UserJoined += AnnounceUserJoined;
             client.UserLeft += AnnounceUserLeft;
-            client.MessageReceived += HandleCommandAsync;
             client.MessageReceived += UwUAlarmAsync;
+            client.MessageReceived += HandleCommandAsync;
+            client.MessageReceived += JpRoast;
             await Task.Delay(-1);
 
 
@@ -73,25 +74,7 @@ namespace GetThisBread
                                         services: null);
         }
 
-        public async Task HandleCommandAsync(SocketMessage messageParam)
-        {
 
-            var message = messageParam as SocketUserMessage;
-            if (message == null) return;
-
-            int argPos = 0;
-
-            //MAKE SURE TO CHANGE d! TO b! BEFORE MAIN BOT RELEASE
-            if (!(message.HasStringPrefix("b!", ref argPos) || message.HasMentionPrefix(client.CurrentUser, ref argPos)) ||
-                message.Author.IsBot) return;
-
-            var context = new CommandContext(client, message);
-
-            var result = await Commands.ExecuteAsync(context: context, argPos: argPos, services: null);
-            if (!result.IsSuccess)
-                await context.Channel.SendMessageAsync(result.ErrorReason);
-
-        }
 
 
         public async Task AnnounceUserJoined(SocketGuildUser user)
@@ -154,6 +137,38 @@ namespace GetThisBread
 
         }
 
+        public async Task JpRoast(SocketMessage message)
+        {
+            if (message.Author.IsBot) { return; }
+            if (message.Author.IsWebhook) { return; }
+            if (message.Content.Contains("moustache looks great") || message.Content.Contains("stache") || message.Content.Contains("mustache") || message.Content.Contains("moustache") || message.Content.Contains("nice stache") || message.Content.Contains("good stache"))
+                {
+                await message.DeleteAsync();
+                }
+        }
+
+      
+
+
+        public async Task HandleCommandAsync(SocketMessage messageParam)
+        {
+
+            var message = messageParam as SocketUserMessage;
+            if (message == null) return;
+
+            int argPos = 0;
+
+            //MAKE SURE TO CHANGE d! TO b! BEFORE MAIN BOT RELEASE
+            if (!(message.HasStringPrefix("b!", ref argPos) || message.HasMentionPrefix(client.CurrentUser, ref argPos)) ||
+                message.Author.IsBot) return;
+
+            var context = new CommandContext(client, message);
+
+            var result = await Commands.ExecuteAsync(context: context, argPos: argPos, services: null);
+            if (!result.IsSuccess)
+                await context.Channel.SendMessageAsync(result.ErrorReason);
+
+        }
 
 
 

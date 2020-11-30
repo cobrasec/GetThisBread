@@ -45,7 +45,7 @@ namespace GetThisBread.Core.Commands.Fun
 
         [Command("8Ball"), Summary("Ask the 8ball how your day will be or maybe.... your life!")]
         [Alias("8ball", "ball", "8ball,", "8Ball,", "magic")]
-        public async Task MagicBall([Remainder]string args = null)
+        public async Task MagicBall([Remainder] string args = null)
         {
             Random rand;
             rand = new Random();
@@ -160,7 +160,7 @@ namespace GetThisBread.Core.Commands.Fun
         [Command("almanac"), Summary("List of commands that can be used as a public user")]
         public async Task Almanac()
         {
-           
+
             EmbedBuilder embed = new EmbedBuilder();
             embed.WithColor(169, 38, 255);
             embed.WithTitle("Command Almanac.");
@@ -230,24 +230,33 @@ namespace GetThisBread.Core.Commands.Fun
             }
 
             await Context.Channel.SendMessageAsync(":x: ***EMERGANCY MEETING*** :x:");
-            await Task.Delay(TimeSpan.FromSeconds(2));
-            await Context.Channel.SendMessageAsync("You are going to get voted off anyway ways but what is your defence? You got 15 seconds, good luck!");
+            await Task.Delay(TimeSpan.FromSeconds(3));
+            await Context.Channel.SendMessageAsync("You are going to get voted off anyways but what is your defence? You got 15 seconds, good luck!");
             await Task.Delay(TimeSpan.FromSeconds(15));
             await Context.Channel.SendMessageAsync(
             "  . 　　　。　　　　•　 　ﾟ　　。 　　.   \n" +
-            "                                       \n"+
+            "                                       \n" +
             "  .　　　 　　.　　　　　。　　 。　. 　  \n" +
-            "                                       \n"+
+            "                                       \n" +
             ".　　 。　　　　　 ඞ 。 . 　　 • 　　　•\n" +
-            "                                      \n"+
+            "                                      \n" +
            $" ﾟ　　 {user.Username} has been ejected.　 。　. \n" +
-            "                                       \n"+
+            "                                       \n" +
             "'　　　                    　       　  　。 \n" +
-            "                                       \n"+
+            "                                       \n" +
             "　ﾟ　 　　.　　　.     ,　　　　.　    .      \n");
-                  
+
 
         }
+
+        [Command("CheemBass"), Summary("Worship cheem bass")]
+        public async Task CheemBass()
+        {
+            await Context.Channel.SendMessageAsync("<:CheemPray:777435404626427904> Worship Now, Questions Never <:CheemPray:777435404626427904>");
+            return;
+        
+        }
+
 
 
     }

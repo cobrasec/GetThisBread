@@ -17,14 +17,15 @@ namespace GetThisBread.Core.Commands
 
     {
 
-        private DiscordSocketClient client;
+
+        
 
         [Command("userinfo"), Summary("Returns the users profile info")]
         [Alias("user")]
         [RequireUserPermission(Discord.GuildPermission.KickMembers)]
         public async Task UserInfo(SocketGuildUser user = null)
         {
-
+          
 
             EmbedBuilder Embed = new EmbedBuilder();
 
@@ -204,6 +205,7 @@ namespace GetThisBread.Core.Commands
                 return;
             }
 
+            
 
             ulong roleID = 692205874504007710;
             var role = Context.Guild.GetRole(roleID);
@@ -303,16 +305,6 @@ namespace GetThisBread.Core.Commands
 
         }
 
-        [Command("play")]
-        public async Task Play([Remainder] string play = "Hi this is a test")
-        {
-            client = new DiscordSocketClient();
-
-           await client.SetGameAsync(play);
-          
-
-
-        }
 
 
 
