@@ -9,7 +9,7 @@ using System.IO;
 
 namespace GetThisBread
 {
-    class Program
+    public class Program
     {
         private CommandService commands;
         private DiscordSocketClient client;
@@ -38,9 +38,11 @@ namespace GetThisBread
 
 
             //Main bot Token
+
              var token = File.ReadAllText("Token.txt");
 
             //Dev bot token
+
              //var token = "NzEyMTIyMjIxMTQ5MDI4Mzcy.XxjxUQ.O15vEvXXwhqLK5njWUPBtrFe0EQ";
 
 
@@ -139,9 +141,12 @@ namespace GetThisBread
 
         public async Task JpRoast(SocketMessage message)
         {
+            if (message.Author.Id == 731014403264086037) { return; }
+            if (message.Author.Id == 252125139003506698) { return; }
+            if (message.Author.Id == 216275755687084032) { return; }
             if (message.Author.IsBot) { return; }
             if (message.Author.IsWebhook) { return; }
-            if (message.Content.Contains("moustache looks great") || message.Content.Contains("stache") || message.Content.Contains("mustache") || message.Content.Contains("moustache") || message.Content.Contains("nice stache") || message.Content.Contains("good stache"))
+            if (message.Content.Contains("moustache looks great") || message.Content.Contains("stache") || message.Content.Contains("mustache") || message.Content.Contains("moustache") || message.Content.Contains("nice stache") || message.Content.Contains("good stache") || message.Content.Contains("Stache") || message.Content.Contains("wax dat stache"))
                 {
                 await message.DeleteAsync();
                 }

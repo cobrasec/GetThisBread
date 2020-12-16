@@ -43,7 +43,7 @@ namespace GetThisBread.Core.Commands
             //Embed for userinfo
 
             var userCreate = user.CreatedAt.LocalDateTime.ToString("dddd, dd MMMM yyyy");
-            //var userJoin = user.JoinedAt.
+           
 
             Embed.AddField("Profile created on:", "\n" + userCreate, true);
             Embed.AddField("User dicriminator:", "\n" + user.Discriminator, false);
