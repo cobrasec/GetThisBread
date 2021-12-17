@@ -43,7 +43,7 @@ namespace GetThisBread
 
             //Dev bot token
 
-             //var token = "NzEyMTIyMjIxMTQ5MDI4Mzcy.XxjxUQ.O15vEvXXwhqLK5njWUPBtrFe0EQ";
+             //var token = "(Old Dev Bot Token Was Here)";
 
 
             services = new ServiceCollection()
